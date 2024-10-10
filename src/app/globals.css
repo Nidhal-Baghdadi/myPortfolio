@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+@layer base {
+
+  :root {
+    --background: 27 27 27;
+    --foreground: 225 225 225;
+    --muted: 115 115 115;
+    --accent: 254 254 91;
+  }
+
+}
+
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+
+
+.scrollArea {
+  @apply absolute top-0 left-0 w-[100%] h-[100vh] overflow-y-auto z-[1];
+}
+
+.scrollArea::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
+}
+
