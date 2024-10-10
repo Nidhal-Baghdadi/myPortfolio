@@ -379,7 +379,7 @@ function Page({ onChangePages }) {
               maxWidth={vpWidth * 0.8}
               textAlign="center"
             >
-              A grant to complete my master's degree in ESIEA
+              A grant to complete my master&apos;s degree in ESIEA
               <meshStandardMaterial
                 emissive={"white"}
                 emissiveIntensity={1.5}
@@ -538,7 +538,7 @@ function Page({ onChangePages }) {
           </Box>
           <Box margin={0.1}>
             <Text fontSize={0.22} maxWidth={1} textAlign="left">
-              Data analysis with python's libraries (numpy, pandas...)
+              Data analysis with python&apos;s libraries (numpy, pandas...)
               <meshStandardMaterial emissive={"red"} emissiveIntensity={1.5} />
             </Text>
           </Box>
@@ -695,7 +695,7 @@ function Page({ onChangePages }) {
               maxWidth={vpWidth * 0.8}
               textAlign="center"
             >
-              English teacher with "Complétude"
+              English teacher with Complétude
               <meshStandardMaterial
                 emissive={"white"}
                 emissiveIntensity={1.5}

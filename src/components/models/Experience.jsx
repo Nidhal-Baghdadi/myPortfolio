@@ -988,7 +988,7 @@ export default function Model({ className }) {
   const modelRef = useRef();
   const scrollArea = useRef();
   const onScroll = (e) => (state.top = e.target.scrollTop);
-  // useEffect(() => void onScroll({ target: scrollArea.current }), []);
+
   const [pages, setPages] = useState(0);
 
   const message = "Home Page";
@@ -1002,12 +1002,7 @@ export default function Model({ className }) {
 
   return (
     <>
-      <Canvas
-        // className={clsx(" absolute", className)}
-        camera={{ position: [0, 0, 2], zoom: 1 }}
-        // orthographic
-        // pixelRatio={window.devicePixelRatio}
-      >
+      <Canvas camera={{ position: [0, 0, 2], zoom: 1 }}>
         <pointLight position={[0, 1, 4]} intensity={0.1} />
         <ambientLight intensity={0.2} />
         <spotLight

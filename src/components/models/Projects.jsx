@@ -150,7 +150,7 @@ function Page({ onChangePages }) {
           </Box>
           <Box margin={0.1}>
             <Text fontSize={0.4} maxWidth={1} textAlign="left">
-              "Projet scientifique & technique"
+              Projet scientifique & technique
               <meshStandardMaterial emissive={"red"} emissiveIntensity={1.5} />
             </Text>
           </Box>
@@ -166,7 +166,7 @@ function Page({ onChangePages }) {
         >
           <Box marginBottom={0.5}>
             <Text fontSize={0.35} maxWidth={vpWidth} textAlign="center">
-              "Digital Contact Directory"
+              Digital Contact Directory
               <meshStandardMaterial
                 emissive={"skyblue"}
                 emissiveIntensity={2}
@@ -591,7 +591,7 @@ function Page({ onChangePages }) {
 
           <Box margin={0.1}>
             <Text fontSize={0.4} maxWidth={1} textAlign="left">
-              "CAP Projet"
+              CAP Projet
               <meshStandardMaterial emissive={"red"} emissiveIntensity={1.5} />
             </Text>
           </Box>
@@ -607,7 +607,7 @@ function Page({ onChangePages }) {
         >
           <Box>
             <Text fontSize={0.35} maxWidth={vpWidth} textAlign="center">
-              "Crit'air mobile application"
+              Crit&apos;air mobile application
               <meshStandardMaterial
                 emissive={"skyblue"}
                 emissiveIntensity={2}
