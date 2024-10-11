@@ -50,7 +50,7 @@ export default function Model(props) {
   };
 
   const handlePointerLeaveEmail = () => {
-    setLinkedInMessage("");
+    setEmailMessage("");
   };
 
   const handleClickPhone = () => {

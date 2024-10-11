@@ -24,10 +24,15 @@ export default function Model(props) {
 
     onData(clicked);
 
-    const link = document.createElement("a");
-    link.href = "/CV/CV.pdf"; // path to your CV file in the public folder
-    link.download = "Nidhal_Baghdadi_CV.pdf"; // optional: specify download file name
-    link.click();
+    const linkFrench = document.createElement("a");
+    linkFrench.href = "/CV/CV.pdf";
+    linkFrench.download = "Nidhal_Baghdadi_French_CV.pdf";
+    linkFrench.click();
+
+    const linkEnglish = document.createElement("a");
+    linkEnglish.href = "/CV/CV_English.pdf";
+    linkEnglish.download = "Nidhal_Baghdadi_English_CV.pdf";
+    linkEnglish.click();
   };
 
   const handlePointerEnter = () => {
