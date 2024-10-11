@@ -30,7 +30,7 @@ export default function Model(props) {
   };
 
   const handlePointerEnterPhone = () => {
-    setPhoneNumber("copy\n+33 06 34 04 60 41\nto clipboard");
+    setPhoneNumber("copy\n+33 6 34 04 60 41\nto clipboard");
   };
 
   const handlePointerLeavePhone = () => {
@@ -54,7 +54,7 @@ export default function Model(props) {
   };
 
   const handleClickPhone = () => {
-    const phoneNumber = "+33 06 34 04 60 41";
+    const phoneNumber = "+33 6 34 04 60 41";
     navigator.clipboard
       .writeText(phoneNumber)
       .then(() => {
