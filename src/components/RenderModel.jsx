@@ -1,7 +1,7 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
 import clsx from "clsx";
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense } from "react";
 import Loader from "@/components/models/Loader";
 import { Stars, Sparkles, OrbitControls } from "@react-three/drei";
 

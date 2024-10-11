@@ -122,7 +122,9 @@ function Page({ onChangePages }) {
               <planeGeometry args={[2.5, 2]} />
 
               <meshStandardMaterial
-                color={["#2d4059", "#ea5455", "#decdc3", "#e5e5e5"][1 % 4]}
+                color={"#c9184a"}
+                emissive={"#c9184a"}
+                emissiveIntensity={0.33}
               />
             </mesh>
             <Box flexDirection="column" padding={0.1} justifyContent={"center"}>
@@ -537,7 +539,9 @@ function Page({ onChangePages }) {
               <planeGeometry args={[2.5, 2]} />
 
               <meshStandardMaterial
-                color={["#2d4059", "#ea5455", "#decdc3", "#e5e5e5"][1 % 4]}
+                color={"#c9184a"}
+                emissive={"#c9184a"}
+                emissiveIntensity={0.33}
               />
             </mesh>
             <Box flexDirection="column" padding={0.1} justifyContent={"center"}>

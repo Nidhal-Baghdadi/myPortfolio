@@ -20,10 +20,6 @@ export default function Model(props) {
   const { actions } = useAnimations(animations, modelRef);
 
   useEffect(() => {
-    if (caracter == "Astronaut_BarbaraTheBee") {
-      setAnimation("Wave");
-    }
-
     actions[animation].reset().fadeIn(0.5).play();
     return () => actions[animation]?.fadeOut(0.5);
   }, [animation, actions, caracter]);
@@ -35,6 +31,8 @@ export default function Model(props) {
       } else {
         setAnimation("Walk_Gun");
       }
+    } else {
+      setAnimation("Wave");
     }
   };
 
@@ -45,6 +43,8 @@ export default function Model(props) {
   const handleClick = () => {
     if (caracter == "Astronaut_FernandoTheFlamingo") {
       onData(0);
+    } else if (caracter == "Astronaut_BarbaraTheBee") {
+      router.push("/");
     } else {
       router.push("/contacts");
     }
@@ -56,23 +56,9 @@ export default function Model(props) {
         <group
           dispose={null}
           ref={modelRef}
-          position={
-            caracter == "Astronaut_BarbaraTheBee"
-              ? [5, 2.9, -9]
-              : [-13, 3.5, -7]
-          }
-          rotation={
-            caracter == "Astronaut_BarbaraTheBee"
-              ? [0, 0, 0]
-              : [0, Math.PI / 4, 0]
-          }
-          scale={
-            caracter == "Astronaut_FernandoTheFlamingo"
-              ? 1
-              : caracter == "Astronaut_BarbaraTheBee"
-              ? 2.1
-              : 0.8
-          }
+          position={[-13, 3.5, -7]}
+          rotation={[0, Math.PI / 4, 0]}
+          scale={caracter == "Astronaut_FernandoTheFlamingo" ? 1 : 0.8}
           onPointerEnter={handlePointerEnter}
           onPointerLeave={handlePointerLeave}
         >

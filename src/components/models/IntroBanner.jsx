@@ -19,9 +19,9 @@ const IntroBanner = () => {
             "Hi, I'm Nidhal.\n\nI'm a junior developer.\n\nAnd, this is my portfolio."
           }
           color={"#ffff33"}
-          position={[-7.5, 1.7, 0]}
+          position={[-22, 6.3, -15]}
           font={font}
-          scale={0.35}
+          scale={7.3}
         />
       </RenderModelntro>
     </div>

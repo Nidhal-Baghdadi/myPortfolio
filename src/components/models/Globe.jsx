@@ -2,7 +2,6 @@
 import React, { useRef, useState } from "react";
 import { Float, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 import Banner from "@/components/models/Banner";
 
@@ -24,7 +23,11 @@ export default function Model(props) {
     setClicked((prev) => !prev);
 
     onData(clicked);
-    // console.log("CV downloaded");
+
+    const link = document.createElement("a");
+    link.href = "/CV/CV.pdf"; // path to your CV file in the public folder
+    link.download = "Nidhal_Baghdadi_CV.pdf"; // optional: specify download file name
+    link.click();
   };
 
   const handlePointerEnter = () => {

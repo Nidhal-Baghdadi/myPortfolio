@@ -2,7 +2,6 @@
 import React, { useRef, useState } from "react";
 import { Text3D, useMatcapTexture } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 const Hero = ({ text, color, position, font }) => {
   const [matcapTexture] = useMatcapTexture("CBCBCB_595959_8C8C8C_747474");
