@@ -695,7 +695,7 @@ function Page({ onChangePages }) {
         >
           <StaticText
             text={
-              "   Leveraging (AR/VR) Android & Ios\nlibraries libraries to allow users to\nhave data displayed next to the object \nin 3D form."
+              "   Leveraging (AR/VR) Android & Ios\nlibraries to allow users to have\ndata displayed next to the object \nin 3D form."
             }
             color={"white"}
             position={[0, 0, 0]}

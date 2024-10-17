@@ -4,6 +4,7 @@ import { useGLTF } from "@react-three/drei";
 import Banner from "@/components/models/Banner";
 import Phone from "@/components/models/Phone";
 import LinkedinLogo from "@/components/models/LinkedinLogo";
+import GithubLogo from "@/components/models/GithubLogo";
 import { Color } from "three";
 import font from "@public/fonts/gt.json";
 import { useFrame } from "@react-three/fiber";
@@ -15,6 +16,7 @@ export default function Model(props) {
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [linkedInmessage, setLinkedInMessage] = useState("");
+  const [githubMessage, setGithubMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [popUpMessage, setPopUpMessage] = useState("");
 
@@ -23,6 +25,10 @@ export default function Model(props) {
 
   const handleClickLinkedin = () => {
     window.open("https://www.linkedin.com/in/nidhal-baghdadi", "_blank");
+  };
+
+  const handleClickGithub = () => {
+    window.open("https://github.com/Nidhal-Baghdadi", "_blank");
   };
 
   const handleClickEmail = () => {
@@ -35,6 +41,14 @@ export default function Model(props) {
 
   const handlePointerLeavePhone = () => {
     setPhoneNumber("");
+  };
+
+  const handlePointerEnterGithub = () => {
+    setGithubMessage("redirect\nto github");
+  };
+
+  const handlePointerLeaveGithub = () => {
+    setGithubMessage("");
   };
 
   const handlePointerEnterLinkedIn = () => {
@@ -82,30 +96,30 @@ export default function Model(props) {
       <Banner
         text={"send me an email"}
         color={"white"}
-        position={[4.1, -2.4, 0]}
-        scale={0.33 * 0.24}
+        position={[5, -2.4, 0]}
+        scale={0.33 * 0.21}
         font={font}
       />
 
       <Banner
         text={emailMessage}
         color={bannerColor}
-        position={[4.1, -1, 0]}
-        scale={0.33 * 0.24}
+        position={[5, -1, 0]}
+        scale={0.33 * 0.21}
         font={font}
       />
       <Banner
         text={"Call me"}
         color={"white"}
-        position={[-4.2, -2.4, 0]}
-        scale={0.33 * 0.24}
+        position={[-5.4, -2.4, 0]}
+        scale={0.33 * 0.21}
         font={font}
       />
       <Banner
         text={phoneNumber}
         color={bannerColor}
         position={[-6.5, -0.2, 0]}
-        scale={0.33 * 0.24}
+        scale={0.33 * 0.21}
         font={font}
       />
       <Banner
@@ -118,15 +132,30 @@ export default function Model(props) {
       <Banner
         text={linkedInmessage}
         color={bannerColor}
-        position={[0, -1, 0]}
-        scale={0.33 * 0.24}
+        position={[-1.7, -1, 0]}
+        scale={0.33 * 0.21}
         font={font}
       />
       <Banner
         text={"Check my linkedin"}
         color={"white"}
-        position={[0, -2.4, 0]}
-        scale={0.33 * 0.24}
+        position={[-1.7, -2.4, 0]}
+        scale={0.33 * 0.21}
+        font={font}
+      />
+
+      <Banner
+        text={githubMessage}
+        color={bannerColor}
+        position={[1.7, -1, 0]}
+        scale={0.33 * 0.21}
+        font={font}
+      />
+      <Banner
+        text={"Check my github"}
+        color={"white"}
+        position={[1.7, -2.4, 0]}
+        scale={0.33 * 0.21}
         font={font}
       />
 
@@ -136,7 +165,7 @@ export default function Model(props) {
         onPointerEnter={handlePointerEnterEmail}
         onPointerLeave={handlePointerLeaveEmail}
       >
-        <group {...props} dispose={null} scale={0.15} position={[4.1, -1.5, 0]}>
+        <group {...props} dispose={null} scale={0.15} position={[5, -1.5, 0]}>
           <group rotation={[-Math.PI / 2, 0, 0]}>
             <mesh
               castShadow
@@ -155,7 +184,7 @@ export default function Model(props) {
       </group>
       <group
         ref={groupRef2}
-        position={[-4.1, -1.5, 0]}
+        position={[-5, -1.5, 0]}
         onPointerEnter={handlePointerEnterPhone}
         onPointerLeave={handlePointerLeavePhone}
         onClick={handleClickPhone}
@@ -164,12 +193,21 @@ export default function Model(props) {
       </group>
       <group
         ref={groupRef3}
-        position={[0, -1.5, 0]}
+        position={[-1.7, -1.5, 0]}
         onClick={handleClickLinkedin}
         onPointerEnter={handlePointerEnterLinkedIn}
         onPointerLeave={handlePointerLeaveLinkedIn}
       >
         <LinkedinLogo />
+      </group>
+      <group
+        ref={groupRef3}
+        position={[1.7, -1.5, 0]}
+        onClick={handleClickGithub}
+        onPointerEnter={handlePointerEnterGithub}
+        onPointerLeave={handlePointerLeaveGithub}
+      >
+        <GithubLogo />
       </group>
     </>
   );
