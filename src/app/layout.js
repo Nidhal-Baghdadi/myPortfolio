@@ -7,6 +7,7 @@ import Header from "@/components/header";
 import { ActiveSectionProvider } from "@/context/activeSectionContext";
 import ThemeContextProvider from "@/context/themeContext";
 import ThemeSwitch from "@/components/ThemeSwitch";
+import Footer from "@/components/Footer";
 
 
 const inter = Inter({
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
           <ActiveSectionProvider>
             <Header />
             {children}
+            <Footer />
 
             <ThemeSwitch />
           </ActiveSectionProvider>
