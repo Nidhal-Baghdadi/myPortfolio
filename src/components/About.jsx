@@ -25,14 +25,14 @@ export default function About() {
       </p>
       <p>
         {" "}
-        <span className="font-medium">Yes... It's that simple.</span>
+        <span className="font-medium">Yes... It&apos;s that simple.</span>
       </p>
       <p>
         {" "}
         I went to an engineering school in Tunisia{" "}
         <span className="italic"> (EPI Sousse).</span> Being a part of a{" "}
         <span className="font-medium">double diploma partnership program</span>,
-        I finished my master's degree in{" "}
+        I finished my master&apos;s degree in{" "}
         <span className="italic"> (ESIEA Paris)</span>.
       </p>
       <p>
