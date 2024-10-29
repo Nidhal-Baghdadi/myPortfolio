@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "tailwindcss/tailwind.css"
-
+import { Toaster } from "react-hot-toast";
 import Header from "@components/Header";
 
 import { ActiveSectionProvider } from "@/context/activeSectionContext";
@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
             <Header />
             {children}
             <Footer />
-
+            <Toaster position="top-right" />
             <ThemeSwitch />
           </ActiveSectionProvider>
         </ThemeContextProvider>
