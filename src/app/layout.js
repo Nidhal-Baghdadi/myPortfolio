@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "tailwindcss/tailwind.css"
 
-import Header from "@components/header";
+import Header from "@components/Header";
 
 import { ActiveSectionProvider } from "@/context/activeSectionContext";
 import ThemeContextProvider from "@/context/themeContext";
