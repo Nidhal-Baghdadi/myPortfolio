@@ -2,12 +2,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "tailwindcss/tailwind.css"
 
-import Header from "@/components/header";
+import Header from "@components/header";
 
 import { ActiveSectionProvider } from "@/context/activeSectionContext";
 import ThemeContextProvider from "@/context/themeContext";
-import ThemeSwitch from "@/components/ThemeSwitch";
-import Footer from "@/components/Footer";
+import ThemeSwitch from "@components/ThemeSwitch";
+import Footer from "@components/Footer";
 
 
 const inter = Inter({

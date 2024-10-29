@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import SectionHeading from "@/components/SectionHeading";
+import SectionHeading from "@components/SectionHeading";
 import { motion } from "framer-motion";
 import { useSectionInView } from "@lib/hooks";
 import { sendEmail } from "@actions/sendEmail";
-import SubmitBtn from "@/components/SubmitButton";
+import SubmitBtn from "@components/SubmitButton";
 import toast from "react-hot-toast";
 
 export default function Contact() {
