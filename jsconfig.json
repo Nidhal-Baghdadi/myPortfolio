@@ -3,7 +3,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@public/*": ["./public/*"],
-      "@lib/*": ["./lib/*"]
+      "@lib/*": ["./lib/*"],
+      "@email/*": ["./email/*"],
+      "@actions/*": ["./actions/*"]
     }
   }
 }

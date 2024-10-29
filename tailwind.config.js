@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-import withMT from "@material-tailwind/react/utils/withMT";
-export default withMT({
+
+module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,23 +8,15 @@ export default withMT({
   ],
   theme: {
     extend: {
-      fontFamily: {
-        inter: ['var(--font-inter)']
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      colors: {
-        background: 'rgb(var(--background))',
-        foreground: 'rgb(var(--foreground))',
-        muted: 'rgb(var(--muted))',
-        accent: 'rgb(var(--accent))',
-      },
-      backdropBlur: {
-        xs: '2px',
-      }
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [],
+  darkMode: "class"
 
-});
+};
 
