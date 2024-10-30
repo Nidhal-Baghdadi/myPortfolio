@@ -4,7 +4,6 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
 export default function Model() {
-  const group = useRef();
   const { nodes, materials } = useGLTF("/models/Moon.glb");
 
   const [hovered, setHovered] = useState(false);
