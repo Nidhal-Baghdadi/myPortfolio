@@ -7,7 +7,7 @@ const RenderModel = ({ children, className }) => {
   return (
     <>
       <Canvas
-        className={clsx("w-screen h-screen z-10 relative", className)}
+        className={clsx("w-screen h-screen  relative", className)}
         camera={{
           fov: 100,
           near: 0.1,

@@ -8,6 +8,8 @@ import { ActiveSectionProvider } from "@/context/activeSectionContext";
 import ThemeContextProvider from "@/context/themeContext";
 import ThemeSwitch from "@components/ThemeSwitch";
 import Footer from "@components/Footer";
+import { Avatar } from "@components/Avatar";
+
 
 
 const inter = Inter({
@@ -38,10 +40,12 @@ export default function RootLayout({ children }) {
         <ThemeContextProvider>
           <ActiveSectionProvider>
             <Header />
+
             {children}
             <Footer />
             <Toaster position="top-right" />
             <ThemeSwitch />
+
           </ActiveSectionProvider>
         </ThemeContextProvider>
 
