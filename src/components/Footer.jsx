@@ -6,7 +6,7 @@ export default function Footer() {
       <p className="text-xs">
         <span className="font-semibold">About the stack:</span> React & Next.js
         (App Router & Server Actions), Tailwind CSS, Framer Motion, React Email
-        & Resend, Three.js, Vercel hosting.
+        & Resend, Three.js, Netlify hosting.
       </p>
     </footer>
   );
