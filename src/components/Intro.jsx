@@ -55,9 +55,8 @@ export default function Intro() {
         animate={{ opacity: 1, y: 0 }}
       >
         <span className="font-bold">Hello, I&apos;m Nidhal.</span> I&apos;m a{" "}
-        <span className="font-bold">junior full-stack developer.</span> I am
-        looking{" "}
-        <span className="italic">for my first junior full-time position.</span>
+        <span className="font-bold">software engineer</span> building full-stack
+        web applications, back-end services, and practical product features.
       </motion.h1>
 
       <motion.div
@@ -93,6 +92,8 @@ export default function Intro() {
           className="bg-white p-4 text-gray-700 hover:text-gray-950 flex items-center gap-2 rounded-full focus:scale-[1.15] hover:scale-[1.15] active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"
           href="https://linkedin.com/in/nidhal-baghdadi"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Nidhal Baghdadi on LinkedIn"
         >
           <BsLinkedin />
         </a>
@@ -101,6 +102,8 @@ export default function Intro() {
           className="bg-white p-4 text-gray-700 flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.15] hover:scale-[1.15] hover:text-gray-950 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"
           href="https://github.com/Nidhal-Baghdadi"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Nidhal Baghdadi on GitHub"
         >
           <FaGithubSquare />
         </a>

@@ -19,39 +19,27 @@ export default function About() {
     >
       <SectionHeading>About me</SectionHeading>
       <p className="mb-3">
-        After graduating high school , I decided to attend medical school and
-        put my passion for engineering aside. 4 years later, I realised I can
-        not go on without doing what I love for a living .
+        I&apos;m a software engineer based in Tunisia, currently working at{" "}
+        <span className="font-medium">Pwn&amp;Patch</span> on web platforms,
+        back-end services, and data-driven product features.
       </p>
       <p>
-        {" "}
-        <span className="font-medium">Yes... It&apos;s that simple.</span>
+        After an early academic detour, I moved fully into software engineering
+        at <span className="italic">EPI Sousse</span> and completed the{" "}
+        <span className="font-medium">ESIEA-EPI double diploma</span> program in
+        Paris.
       </p>
       <p>
-        {" "}
-        I went to an engineering school in Tunisia{" "}
-        <span className="italic"> (EPI Sousse).</span> Being a part of a{" "}
-        <span className="font-medium">double diploma partnership program</span>,
-        I finished my master&apos;s degree in{" "}
-        <span className="italic"> (ESIEA Paris)</span>.
+        I enjoy product-minded engineering: understanding the problem, shaping a
+        practical interface, and building the services and data flows that make
+        the experience reliable.
       </p>
       <p>
-        {" "}
-        <span className="italic">The aspect I enjoy the most</span> is the
-        problem-solving aspect. I <span className="underline">love</span> the
-        feeling of finally figuring out a solution to a problem.
-      </p>
-      <p>
-        {" "}
-        <span className="underline">My core stack</span> is{" "}
-        <span className="font-medium">React, Vue, Node.js, and MongoDB</span>. I
-        am also familiar with{" "}
-        <span className="font-medium">
-          Next.js, Prisma, Docker, Swagger and Spring-boot
-        </span>
-        . I am always looking to learn new technologies. I am currently looking
-        for a <span className="font-medium">full-time position</span> as a
-        junior software developer.
+        <span className="underline">My core stack</span> includes{" "}
+        <span className="font-medium">JavaScript, TypeScript, Vue, React, Node.js,
+        Ruby on Rails, MongoDB, MySQL, Elasticsearch, Docker, and CI/CD</span>.
+        I&apos;ve also worked with Flutter, Spring Boot, Azure, IBM Cloud, and
+        Kubernetes across internships and academic projects.
       </p>
     </motion.section>
   );
