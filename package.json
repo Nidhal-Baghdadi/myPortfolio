@@ -2,40 +2,29 @@
   "name": "personal-portfolio",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev -p 3001",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "vite --port 3001",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint",
+    "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
-    "@material-tailwind/react": "^2.1.9",
-    "@react-email/components": "^0.0.25",
-    "@react-three/cannon": "^6.6.0",
-    "@react-three/drei": "^9.99.5",
-    "@react-three/fiber": "^8.15.16",
-    "@react-three/flex": "^1.0.1",
-    "@react-three/postprocessing": "^2.16.2",
-    "clsx": "^2.1.0",
-    "framer-motion": "^11.11.10",
-    "next": "14.1.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-email": "^3.0.1",
-    "react-hook-form": "^7.53.0",
-    "react-hot-toast": "^2.4.1",
-    "react-icons": "^5.3.0",
-    "react-intersection-observer": "^9.13.1",
-    "react-vertical-timeline-component": "^3.6.0",
-    "resend": "^4.0.0",
-    "three": "^0.162.0"
+    "@fontsource/inter": "^5.2.8",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.13",
-    "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "autoprefixer": "^10.4.20",
+    "oxlint": "^1.79.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2"
   }
 }
