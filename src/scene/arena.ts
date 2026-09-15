@@ -5,43 +5,57 @@ export type WallSegment = {
     size: Vector3Tuple;
 };
 
+/** A camera framing around a station. Angles in degrees; the FOV is shared (CAMERA_FOV). */
+export type Shot = {
+    distance: number;
+    elevation: number;
+    azimuth: number;
+};
+
 export type Station = {
     id: string;
     name: string;
     x: number;
     z: number;
+    shot: Shot;
 };
 
 export const STATIONS: Station[] = [{
     id: "gate",
     name: "Gate",
     x: 0,
-    z: 6.5
+    z: 6.5,
+    shot: { distance: 14, elevation: 22, azimuth: 15 }
 }, {
     id: "podium",
     name: "Podium",
     x: 0,
-    z: -0.1
+    z: -0.1,
+    shot: { distance: 13, elevation: 32, azimuth: 15 }
 }, {
     id: "plinths",
     name: "Plinths",
     x: 4.5,
-    z: 3.4
+    z: 3.4,
+    shot: { distance: 12, elevation: 30, azimuth: -112 }
 }, {
     id: "toolRack",
     name: "Tool Rack",
     x: 4.5,
-    z: -4.1
+    z: -4.1,
+    shot: { distance: 12, elevation: 30, azimuth: -33 }
 }, {
     id: "statues",
     name: "Statues",
     x: -4.1,
-    z: -4.1
+    z: -4.1,
+    shot: { distance: 12, elevation: 32, azimuth: 60 }
 }, {
     id: "postern",
     name: "Postern",
     x: -5.8,
-    z: 4.3
+    z: 4.3,
+    shot: { distance: 12, elevation: 28, azimuth: 142 }
 }];
 
 export const PAPER = "#F3F4EE";
