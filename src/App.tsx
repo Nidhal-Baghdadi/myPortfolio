@@ -1,16 +1,38 @@
+import { Canvas } from "@react-three/fiber";
+import Arena from "./components/Arena";
+import { ARENA_DEPTH, STATIONS, PAPER, ACID } from "./scene/arena";
+
+import Marker from "./components/Marker";
+import { CAMERA_FOV } from "./scene/camera";
+import CameraRig from "./scene/CameraRig";
+import { Leva } from "leva";
+
 export default function App() {
   return (
-    <div className="relative min-h-screen bg-slate-100 pt-28 text-gray-950 sm:pt-36 dark:bg-gray-900 dark:text-gray-50 dark:text-opacity-90">
-      {/* decorative background blobs, ported from the old RootLayout */}
-      <div className="absolute right-[11rem] top-[-6rem] -z-10 h-[31.25rem] w-[31.25rem] rounded-full bg-[#fbe2e3] blur-[10rem] sm:w-[68.75rem]" />
-      <div className="absolute left-[-35rem] top-[-1rem] -z-10 h-[50rem] w-[31.25rem] rounded-full bg-[#dbd7fb] blur-[10rem] sm:w-[68.75rem] md:left-[-33rem]" />
+    <>
+      <Canvas
+        camera={{
+          fov: CAMERA_FOV,
+        }}
+      >
+        <CameraRig />
+        <ambientLight />
+        <directionalLight position={[5, 10, 5]} />
+        <color attach="background" args={[PAPER]} />
+        <gridHelper args={[ARENA_DEPTH, ARENA_DEPTH]} />
+        <axesHelper args={[3]} />
+        <Arena />
+        {STATIONS.map((station) => (
+          <Marker
+            key={station.id}
+            x={station.x}
+            z={station.z}
+            color={station.id === "gate" ? ACID : PAPER}
+          />
+        ))}
+      </Canvas>
 
-      <main className="flex flex-col items-center px-4">
-        <h1 className="text-3xl font-bold text-blue-600">Vite + React + TS is running</h1>
-        <p className="mt-4 text-gray-700 dark:text-white/80">
-          Task 1 scaffold. Sections get ported in from <code>legacy/</code> next.
-        </p>
-      </main>
-    </div>
-  )
+      <Leva hidden={!import.meta.env.DEV} />
+    </>
+  );
 }
