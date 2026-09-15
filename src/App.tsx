@@ -7,6 +7,8 @@ import Marker from "./components/Marker";
 import { CAMERA_FOV } from "./scene/camera";
 import CameraRig from "./scene/CameraRig";
 import { Leva } from "leva";
+import StationPanel from "./components/StationPanel";
+import { CONTENT } from "./content";
 
 export default function App() {
   return (
@@ -32,6 +34,10 @@ export default function App() {
           />
         ))}
       </Canvas>
+
+      <main>
+        <StationPanel content={CONTENT.gate} />
+      </main>
 
       <Leva hidden={!import.meta.env.DEV} />
     </>
