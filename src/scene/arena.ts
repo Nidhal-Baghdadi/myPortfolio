@@ -58,10 +58,6 @@ export const STATIONS: Station[] = [{
     shot: { distance: 12, elevation: 28, azimuth: 142 }
 }];
 
-export const PAPER = "#F3F4EE";
-
-export const ACID = "#E2FF1F";
-
 export const ARENA_WIDTH = 15;
 export const ARENA_DEPTH = 16;
 export const WALL_THICKNESS = 0.6;

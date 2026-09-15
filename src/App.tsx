@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import Arena from "./components/Arena";
-import { ARENA_DEPTH, STATIONS, PAPER, ACID } from "./scene/arena";
+import { ARENA_DEPTH, STATIONS } from "./scene/arena";
+import { cssColor } from "./styles/tokens";
 
 import Marker from "./components/Marker";
 import { CAMERA_FOV } from "./scene/camera";
@@ -18,7 +19,7 @@ export default function App() {
         <CameraRig />
         <ambientLight />
         <directionalLight position={[5, 10, 5]} />
-        <color attach="background" args={[PAPER]} />
+        <color attach="background" args={[cssColor("paper")]} />
         <gridHelper args={[ARENA_DEPTH, ARENA_DEPTH]} />
         <axesHelper args={[3]} />
         <Arena />
@@ -27,7 +28,7 @@ export default function App() {
             key={station.id}
             x={station.x}
             z={station.z}
-            color={station.id === "gate" ? ACID : PAPER}
+            color={cssColor(station.id === "gate" ? "acid" : "paper")}
           />
         ))}
       </Canvas>

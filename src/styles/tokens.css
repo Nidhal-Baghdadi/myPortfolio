@@ -1,0 +1,15 @@
+/* Design tokens: the single source of truth for the Arena's look.
+   HTML reads them with var(--…); the 3D scene reads colours through cssColor() in tokens.ts. */
+:root {
+  /* colours */
+  --color-paper: #F3F4EE;
+  --color-ink: #121310;
+  --color-graphite: #55584D;
+  --color-rule: #CDD0C3;
+  --color-acid: #E2FF1F;
+
+  /* typefaces (files are loaded in fonts.css) */
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-body: 'Newsreader Variable', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}

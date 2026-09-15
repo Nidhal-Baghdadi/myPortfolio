@@ -1,0 +1,6 @@
+/* Font files. Paths omit ".css": each @fontsource package's exports map adds it. */
+@import "@fontsource/big-shoulders-display/600";
+@import "@fontsource/big-shoulders-display/800";
+@import "@fontsource-variable/newsreader";
+@import "@fontsource/ibm-plex-mono/400";
+@import "@fontsource/ibm-plex-mono/600";

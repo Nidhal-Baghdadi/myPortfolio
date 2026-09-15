@@ -1,4 +1,5 @@
-import { ARENA_DEPTH, ARENA_WIDTH, PAPER, WALLS } from "../scene/arena";
+import { ARENA_DEPTH, ARENA_WIDTH, WALLS } from "../scene/arena";
+import { cssColor } from "../styles/tokens";
 import Wall from "./Wall";
 
 export default function Arena() {
@@ -9,7 +10,7 @@ export default function Arena() {
       ))}
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[ARENA_WIDTH, ARENA_DEPTH]} />
-        <meshStandardMaterial color={PAPER} />
+        <meshStandardMaterial color={cssColor("paper")} />
       </mesh>
     </>
   );
