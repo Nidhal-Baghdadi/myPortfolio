@@ -20,7 +20,7 @@ export type Station = {
     shot: Shot;
 };
 
-export const STATIONS: Station[] = [{
+export const STATIONS = [{
     id: "gate",
     name: "Gate",
     x: 0,
@@ -56,7 +56,9 @@ export const STATIONS: Station[] = [{
     x: -5.8,
     z: 4.3,
     shot: { distance: 12, elevation: 28, azimuth: 142 }
-}];
+}] as const satisfies readonly Station[];
+
+export type StationId = (typeof STATIONS)[number]["id"]
 
 export const ARENA_WIDTH = 15;
 export const ARENA_DEPTH = 16;
