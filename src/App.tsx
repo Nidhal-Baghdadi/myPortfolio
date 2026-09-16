@@ -20,7 +20,7 @@ export default function App() {
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const station = STATIONS[activeIndex] ?? STATIONS[0];
+  const activeStation = STATIONS[activeIndex] ?? STATIONS[0];
 
   useEffect(() => {
     const onScroll = () => {
@@ -54,15 +54,18 @@ export default function App() {
             <gridHelper args={[ARENA_DEPTH, ARENA_DEPTH]} />
             <axesHelper args={[3]} />
             <Arena />
-            {STATIONS.map((station) => (
-              <Marker
-                key={station.id}
-                x={station.x}
-                z={station.z}
-                color={cssColor(station.id === "gate" ? "acid" : "paper")}
-                animate={station.id === "gate"}
-              />
-            ))}
+            {STATIONS.map((station) => {
+              const isActive = station.id === activeStation.id;
+              return (
+                <Marker
+                  key={station.id}
+                  x={station.x}
+                  z={station.z}
+                  color={cssColor(isActive ? "acid" : "paper")}
+                  animate={isActive}
+                />
+              );
+            })}
           </Canvas>
         </div>
       )}
@@ -79,7 +82,7 @@ export default function App() {
           {readAsPage ? "Show the arena" : "Read as a page"}
         </button>
 
-        <StationPanel content={CONTENT[station.id]} />
+        <StationPanel content={CONTENT[activeStation.id]} />
       </main>
 
       <div

@@ -12,11 +12,11 @@ export default function Marker({ x, z, color, animate }: MarkerProps) {
   const meshRef = useRef<Mesh>(null);
 
   useFrame((state) => {
-    if (!animate || !meshRef.current) return;
+    if (!meshRef.current) return;
 
-    meshRef.current.position.setY(
-      0.05 * Math.sin(state.clock.elapsedTime * 2) + 0.3,
-    );
+    meshRef.current.position.y = animate
+      ? 0.3 + Math.sin(state.clock.elapsedTime * 2) * 0.05
+      : 0.25;
   });
 
   return (
