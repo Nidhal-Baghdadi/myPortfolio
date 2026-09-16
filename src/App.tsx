@@ -6,41 +6,65 @@ import styles from "./App.module.css";
 import Marker from "./components/Marker";
 import { CAMERA_FOV } from "./scene/camera";
 import CameraRig from "./scene/CameraRig";
-import { Leva } from "leva";
 import StationPanel from "./components/StationPanel";
 import { CONTENT } from "./content";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function App() {
   const [readAsPage, setReadAsPage] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+
+  const stationPositionRef = useRef(0);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const station = STATIONS[activeIndex] ?? STATIONS[0];
+
+  useEffect(() => {
+    const onScroll = () => {
+      const stationPosition =
+        window.innerHeight > 0 ? window.scrollY / window.innerHeight : 0;
+
+      stationPositionRef.current = stationPosition;
+
+      setActiveIndex(
+        Math.min(Math.round(stationPosition), STATIONS.length - 1),
+      );
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // set the starting value
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
       {!readAsPage && (
-        <Canvas
-          camera={{
-            fov: CAMERA_FOV,
-          }}
-        >
-          <CameraRig />
-          <ambientLight />
-          <directionalLight position={[5, 10, 5]} />
-          <color attach="background" args={[cssColor("paper")]} />
-          <gridHelper args={[ARENA_DEPTH, ARENA_DEPTH]} />
-          <axesHelper args={[3]} />
-          <Arena />
-          {STATIONS.map((station) => (
-            <Marker
-              key={station.id}
-              x={station.x}
-              z={station.z}
-              color={cssColor(station.id === "gate" ? "acid" : "paper")}
-              animate={station.id === "gate"}
-            />
-          ))}
-        </Canvas>
+        <div className={styles.scene}>
+          <Canvas
+            camera={{
+              fov: CAMERA_FOV,
+            }}
+          >
+            <CameraRig stationPosition={stationPositionRef} />
+            <ambientLight />
+            <directionalLight position={[5, 10, 5]} />
+            <color attach="background" args={[cssColor("paper")]} />
+            <gridHelper args={[ARENA_DEPTH, ARENA_DEPTH]} />
+            <axesHelper args={[3]} />
+            <Arena />
+            {STATIONS.map((station) => (
+              <Marker
+                key={station.id}
+                x={station.x}
+                z={station.z}
+                color={cssColor(station.id === "gate" ? "acid" : "paper")}
+                animate={station.id === "gate"}
+              />
+            ))}
+          </Canvas>
+        </div>
       )}
 
       <main>
@@ -55,10 +79,14 @@ export default function App() {
           {readAsPage ? "Show the arena" : "Read as a page"}
         </button>
 
-        <StationPanel content={CONTENT.gate} />
+        <StationPanel content={CONTENT[station.id]} />
       </main>
 
-      <Leva hidden={!import.meta.env.DEV || readAsPage} />
+      <div
+        className={styles.track}
+        style={{ height: `${STATIONS.length * 100}vh` }}
+        aria-hidden="true"
+      />
     </>
   );
 }

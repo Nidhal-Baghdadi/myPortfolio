@@ -79,10 +79,6 @@ export const LEFT_WALL_2_WIDTH = ARENA_DEPTH - POSTERN_WIDTH - LEFT_WALL_1_WIDTH
 
 export const LEFT_WALL_2_POSITION = -(POSTERN_WIDTH + LEFT_WALL_1_WIDTH) / 2;
 
-
-export const ARENA_RADIUS = Math.hypot(ARENA_WIDTH / 2, ARENA_DEPTH / 2, WALL_HEIGHT )
-
-
 export const WALLS: WallSegment[] = [
     {
         position: [0, WALL_HEIGHT / 2, -(ARENA_DEPTH / 2)],

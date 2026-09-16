@@ -1,5 +1,5 @@
 .toggle {
-  position: absolute;
+  position: fixed;
   top: 1rem;
   left: 1rem;
   z-index: 1;
@@ -13,3 +13,4 @@
 }
 .toggle[aria-pressed="true"] { background: var(--color-acid); border-color: var(--color-acid); }
 .toggle:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+.scene { position: fixed; inset: 0; }

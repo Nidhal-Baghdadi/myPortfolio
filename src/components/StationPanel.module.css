@@ -1,5 +1,5 @@
 .panel {
-  position: absolute;
+  position: fixed;
   margin: auto 2rem;
   bottom: 2rem;
   max-width: 28rem;
