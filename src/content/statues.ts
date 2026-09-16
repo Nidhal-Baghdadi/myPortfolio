@@ -1,9 +1,10 @@
-import type { Role, Section } from "./types"
+import type { StationContent } from "./types"
 
 // Newest first.
 export const STATUES = {
   heading: "My experience",
   lede: "From engineering school in Paris to building products in Tunis.",
+  kind: "roles",
   items: [
     {
       title: "Software Engineer",
@@ -56,4 +57,4 @@ export const STATUES = {
     },
   ],
   actions: [{ kind: "file", label: "Download CV", href: "/CV/CV.pdf" }],
-} as const satisfies Section<Role>
+} as const satisfies StationContent

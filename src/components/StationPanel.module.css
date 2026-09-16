@@ -6,6 +6,8 @@
   padding: 1.5rem;
   background: var(--color-paper);
   border: 1px solid var(--color-rule);
+  max-height: calc(100vh - 6rem); 
+  overflow-y: auto;
 }
 .heading { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 2.5rem; text-transform: uppercase; line-height: 1; }
 .lede { margin: 0.75rem 0 1rem; font-size: 1.125rem; line-height: 1.5; }
@@ -13,3 +15,14 @@
 .action { display: inline-block; padding: 0.4rem 0.8rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-ink); background: var(--color-acid); text-decoration: none; }
 .action:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
 .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.paragraph { margin: 0 0 0.75rem; line-height: 1.5; }
+.tags { list-style: none; margin: 0 0 1rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.tags li { padding: 0.2rem 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; border: 1px solid var(--color-rule); }
+
+.card { margin: 0 0 1.25rem; padding-top: 1rem; border-top: 1px solid var(--color-rule); }
+.itemTitle { margin: 0 0 0.35rem; font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; text-transform: uppercase; line-height: 1.05; }
+.cardImage { display: block; width: 100%; height: auto; margin: 0.5rem 0; border: 1px solid var(--color-rule); }
+.roles { list-style: none; margin: 0 0 1rem; padding: 0; }
+.roles li { padding: 0.75rem 0; border-top: 1px solid var(--color-rule); }
+.meta { margin: 0 0 0.35rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-graphite); }

@@ -1,4 +1,4 @@
-import type { Project, Section } from "./types"
+import type { StationContent } from "./types"
 
 export const PLINTHS = {
   heading: "My projects",
@@ -27,5 +27,6 @@ export const PLINTHS = {
       repo: "https://github.com/Nidhal-Baghdadi/3d-maze",
     },
   ],
+  kind: "projects",
   actions: [{ kind: "external", label: "All code on GitHub", href: "https://github.com/Nidhal-Baghdadi" }],
-} as const satisfies Section<Project>
+} as const satisfies StationContent
