@@ -38,6 +38,32 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const goToHash = (animate: boolean) => {
+      const index = STATIONS.findIndex(
+        (s) => `#${s.id}` === window.location.hash,
+      );
+
+      if (index === -1) return;
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      window.scrollTo({
+        top: index * window.innerHeight,
+        behavior: animate && !reduceMotion ? "smooth" : "auto",
+      });
+    };
+    goToHash(false); // when the page first loads
+    const onHashChange = () => goToHash(true);
+    window.addEventListener("hashchange", onHashChange); // whenever the hash changes, e.g. "Contact me"
+
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  useEffect(() => {
+    history.replaceState(null, "", `#${activeStation.id}`);
+  }, [activeStation.id]);
+
   return (
     <>
       {!readAsPage && (
@@ -56,7 +82,11 @@ export default function App() {
             <Arena />
             {STATIONS.map((station) => {
               return (
-               <StationGroup key={station.id} station={station} isActive={station.id === activeStation.id} />
+                <StationGroup
+                  key={station.id}
+                  station={station}
+                  isActive={station.id === activeStation.id}
+                />
               );
             })}
           </Canvas>
