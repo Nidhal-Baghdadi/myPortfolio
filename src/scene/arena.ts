@@ -114,4 +114,14 @@ export const WALLS: WallSegment[] = [
     },
 ];
 
+
 export type ArenaStation = (typeof STATIONS)[number]
+
+/** One piece of furniture at a station, in the station's local space. */
+export type PropSpec = {
+    /** What it becomes when models load, e.g. "banner". */
+    name: string;
+    /** Centre of the box, relative to the station's marker. */
+    position: Vector3Tuple;
+    size: Vector3Tuple;
+};
