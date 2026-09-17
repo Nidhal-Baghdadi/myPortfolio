@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { Canvas } from "@react-three/fiber";
 import Arena from "../components/Arena";
-import { ARENA_DEPTH, STATIONS } from "../scene/arena";
+import { STATIONS } from "../scene/arena";
 import { cssColor } from "../styles/tokens";
 import styles from "./ArenaPage.module.css";
 import StationGroup from "../components/StationGroup";
@@ -79,8 +79,6 @@ export default function ArenaPage() {
             <ambientLight />
             <directionalLight position={[5, 10, 5]} />
             <color attach="background" args={[cssColor("paper")]} />
-            <gridHelper args={[ARENA_DEPTH, ARENA_DEPTH]} />
-            <axesHelper args={[3]} />
             <Arena />
             {STATIONS.map((station) => {
               return (

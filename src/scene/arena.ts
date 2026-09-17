@@ -54,7 +54,7 @@ export const STATIONS = [{
     id: "postern",
     name: "Postern",
     x: -5.8,
-    z: 4.3,
+    z: 4,
     shot: { distance: 12, elevation: 28, azimuth: 142 }
 }] as const satisfies readonly Station[];
 
@@ -68,7 +68,8 @@ export const WALL_HEIGHT = 1;
 
 export const GATE_WIDTH = 3;
 export const POSTERN_WIDTH = 2;
-export const POSTERN_Z = 4.3;
+// A whole number, so the wall pieces on both sides of the opening stay on the 1-unit tile grid.
+export const POSTERN_Z = 4;
 
 export const LEFT_WALL_1_POSITION = ARENA_DEPTH / 2 -
     (ARENA_DEPTH / 2 - POSTERN_Z - POSTERN_WIDTH / 2) / 2;
@@ -116,12 +117,3 @@ export const WALLS: WallSegment[] = [
 
 
 export type ArenaStation = (typeof STATIONS)[number]
-
-/** One piece of furniture at a station, in the station's local space. */
-export type PropSpec = {
-    /** What it becomes when models load, e.g. "banner". */
-    name: string;
-    /** Centre of the box, relative to the station's marker. */
-    position: Vector3Tuple;
-    size: Vector3Tuple;
-};

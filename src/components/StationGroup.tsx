@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import type { ArenaStation } from "@/scene/arena";
 import { STATION_PROPS } from "@/scene/props";
 import { cssColor } from "../styles/tokens";
 import Marker from "./Marker";
 import Placeholder from "./Placeholder";
+import PropModel from "./PropModel";
 
 export default function StationGroup({
   station,
@@ -19,7 +21,9 @@ export default function StationGroup({
 
       {STATION_PROPS[station.id].map((prop, i) => (
         // fixed data that never reorders, so the index is a safe part of the key
-        <Placeholder key={`${prop.name}-${i}`} position={prop.position} size={prop.size} />
+        <Suspense key={`${prop.name}-${i}`} fallback={<Placeholder position={prop.position} size={prop.size} />}>
+          <PropModel {...prop} />
+        </Suspense>
       ))}
     </group>
   );
