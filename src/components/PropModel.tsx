@@ -1,6 +1,13 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
-import { Box3, Vector3 } from "three";
+import {
+  Box3,
+  EdgesGeometry,
+  LineSegments,
+  Mesh,
+  Vector3,
+} from "three";
+import { CREASE_ANGLE, lineMaterial } from "@/scene/ink";
 import { PROP_MODELS, type PropSpec } from "@/scene/props";
 
 const modelUrl = (name: PropSpec["name"]) =>
@@ -21,7 +28,7 @@ export default function PropModel({
   // Suspends until the file has loaded; the nearest <Suspense> shows its fallback meanwhile.
   const { scene } = useGLTF(modelUrl(name));
 
-  const fitted = useMemo(() => {
+  const { model: fitted, edges } = useMemo(() => {
     // One loaded scene can only have one parent, so every placement needs its own copy.
     const model = scene.clone(true);
     model.rotation.set(tilt, turn, 0);
@@ -39,8 +46,21 @@ export default function PropModel({
     const box = new Box3().setFromObject(model);
     const centre = box.getCenter(new Vector3());
     model.position.set(-centre.x, -size[1] / 2 - box.min.y, -centre.z);
-    return model;
+
+    // Outline every mesh's creases. As a child of the mesh, the lines inherit its transform and the fit scale.
+    const edges: EdgesGeometry[] = [];
+    model.traverse((node) => {
+      if (!(node instanceof Mesh)) return;
+      const geometry = new EdgesGeometry(node.geometry, CREASE_ANGLE);
+      edges.push(geometry);
+      node.add(new LineSegments(geometry, lineMaterial()));
+    });
+
+    return { model, edges };
   }, [scene, size, turn, tilt]);
+
+  // The outline geometries are ours, not R3F's, so free their GPU memory when this copy goes away.
+  useEffect(() => () => edges.forEach((geometry) => geometry.dispose()), [edges]);
 
   return (
     <group position={position}>

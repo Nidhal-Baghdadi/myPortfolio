@@ -32,8 +32,8 @@ export default function Arena() {
   return (
     <>
       <Suspense fallback={<BoxArena />}>
-        <Tiles model="floor" tiles={FLOOR_TILES} />
-        <Tiles model="floor-detail" tiles={FLOOR_DETAIL_TILES} />
+        <Tiles model="floor" tiles={FLOOR_TILES} line="rule" />
+        <Tiles model="floor-detail" tiles={FLOOR_DETAIL_TILES} line="rule" />
         <Tiles model="wall" tiles={WALL_TILES} />
         <Tiles model="column" tiles={PILLAR_TILES} />
         <Tiles model="stairs" tiles={STAND_TILES} />

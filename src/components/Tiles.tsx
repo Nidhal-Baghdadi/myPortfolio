@@ -1,13 +1,24 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Instance, Instances, useGLTF } from "@react-three/drei";
-import { Mesh } from "three";
+import { EdgesGeometry, Euler, Matrix4, Mesh, Quaternion, Vector3 } from "three";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { CREASE_ANGLE, lineMaterial } from "@/scene/ink";
 import type { Tile } from "@/scene/structure";
+import type { ColorToken } from "@/styles/tokens";
 
 /**
  * Draws many copies of one Kenney piece as a single instanced mesh: one draw call for all of them,
  * instead of one per copy. Works because each Kenney piece is a single mesh with no node transforms.
  */
-export default function Tiles({ model, tiles }: { model: string; tiles: readonly Tile[] }) {
+export default function Tiles({
+  model,
+  tiles,
+  line = "ink",
+}: {
+  model: string;
+  tiles: readonly Tile[];
+  line?: ColorToken;
+}) {
   const { scene } = useGLTF(`/models/arena/${model}.glb`);
 
   const mesh = useMemo(() => {
@@ -19,11 +30,34 @@ export default function Tiles({ model, tiles }: { model: string; tiles: readonly
     return found;
   }, [scene, model]);
 
+  // Instances can't carry child lines, so bake every copy's outline into one geometry, placed the
+  // way each instance is: still a single draw call for all the lines of this piece.
+  const outlines = useMemo(() => {
+    const edges = new EdgesGeometry(mesh.geometry, CREASE_ANGLE);
+    const noScale = new Vector3(1, 1, 1);
+    const placed = tiles.map((tile) => {
+      const rotation = new Quaternion().setFromEuler(new Euler(0, tile.turn ?? 0, 0));
+      const matrix = new Matrix4().compose(new Vector3(...tile.position), rotation, noScale);
+      return edges.clone().applyMatrix4(matrix);
+    });
+    const merged = mergeGeometries(placed);
+    edges.dispose();
+    placed.forEach((geometry) => geometry.dispose());
+    if (!merged) throw new Error(`Could not merge the outlines of ${model}.glb`);
+    return merged;
+  }, [mesh, tiles, model]);
+
+  // The merged geometry is ours, not R3F's, so free its GPU memory when it's replaced or unmounted.
+  useEffect(() => () => outlines.dispose(), [outlines]);
+
   return (
-    <Instances limit={tiles.length} geometry={mesh.geometry} material={mesh.material}>
-      {tiles.map((tile, i) => (
-        <Instance key={i} position={tile.position} rotation={[0, tile.turn ?? 0, 0]} />
-      ))}
-    </Instances>
+    <>
+      <Instances limit={tiles.length} geometry={mesh.geometry} material={mesh.material}>
+        {tiles.map((tile, i) => (
+          <Instance key={i} position={tile.position} rotation={[0, tile.turn ?? 0, 0]} />
+        ))}
+      </Instances>
+      <lineSegments geometry={outlines} material={lineMaterial(line)} />
+    </>
   );
 }
