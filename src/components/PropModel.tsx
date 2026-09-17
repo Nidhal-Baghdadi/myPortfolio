@@ -7,7 +7,7 @@ import {
   Mesh,
   Vector3,
 } from "three";
-import { CREASE_ANGLE, lineMaterial } from "@/scene/ink";
+import { CREASE_ANGLE, lineMaterial, surfaceMaterial } from "@/scene/ink";
 import { PROP_MODELS, type PropSpec } from "@/scene/props";
 
 const modelUrl = (name: PropSpec["name"]) =>
@@ -24,7 +24,8 @@ export default function PropModel({
   size,
   turn = 0,
   tilt = 0,
-}: PropSpec) {
+  accent = false,
+}: PropSpec & { accent?: boolean }) {
   // Suspends until the file has loaded; the nearest <Suspense> shows its fallback meanwhile.
   const { scene } = useGLTF(modelUrl(name));
 
@@ -47,17 +48,21 @@ export default function PropModel({
     const centre = box.getCenter(new Vector3());
     model.position.set(-centre.x, -size[1] / 2 - box.min.y, -centre.z);
 
-    // Outline every mesh's creases. As a child of the mesh, the lines inherit its transform and the fit scale.
+    // Paint every mesh in ink colours and outline its creases. The copy shares the loaded materials, so
+    // assign a new one instead of editing it. As a child of the mesh, the lines inherit its transform and scale.
+    const paint = surfaceMaterial(accent ? "acid" : "paper");
     const edges: EdgesGeometry[] = [];
     model.traverse((node) => {
       if (!(node instanceof Mesh)) return;
+      node.material = paint;
       const geometry = new EdgesGeometry(node.geometry, CREASE_ANGLE);
       edges.push(geometry);
       node.add(new LineSegments(geometry, lineMaterial()));
     });
 
     return { model, edges };
-  }, [scene, size, turn, tilt]);
+    // Changing the accent rebuilds the copy: cheap for these small models, and it keeps render free of mutation.
+  }, [scene, size, turn, tilt, accent]);
 
   // The outline geometries are ours, not R3F's, so free their GPU memory when this copy goes away.
   useEffect(() => () => edges.forEach((geometry) => geometry.dispose()), [edges]);

@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Instance, Instances, useGLTF } from "@react-three/drei";
 import { EdgesGeometry, Euler, Matrix4, Mesh, Quaternion, Vector3 } from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-import { CREASE_ANGLE, lineMaterial } from "@/scene/ink";
+import { CREASE_ANGLE, lineMaterial, surfaceMaterial } from "@/scene/ink";
 import type { Tile } from "@/scene/structure";
 import type { ColorToken } from "@/styles/tokens";
 
@@ -52,7 +52,7 @@ export default function Tiles({
 
   return (
     <>
-      <Instances limit={tiles.length} geometry={mesh.geometry} material={mesh.material}>
+      <Instances limit={tiles.length} geometry={mesh.geometry} material={surfaceMaterial()}>
         {tiles.map((tile, i) => (
           <Instance key={i} position={tile.position} rotation={[0, tile.turn ?? 0, 0]} />
         ))}

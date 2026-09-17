@@ -76,8 +76,8 @@ export default function ArenaPage() {
             }}
           >
             <CameraRig stationPosition={stationPositionRef} />
-            <ambientLight />
-            <directionalLight position={[5, 10, 5]} />
+            <ambientLight intensity={1.6} />
+            <directionalLight position={[5, 10, 5]} intensity={2.2} />
             <color attach="background" args={[cssColor("paper")]} />
             <Arena />
             {STATIONS.map((station) => {
