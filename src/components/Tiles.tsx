@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Instance, Instances, useGLTF } from "@react-three/drei";
 import { EdgesGeometry, Euler, Matrix4, Mesh, Quaternion, Vector3 } from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-import { CREASE_ANGLE, lineMaterial, surfaceMaterial } from "@/scene/ink";
+import { CREASE_ANGLE, lineMaterial, silhouetteMaterial, surfaceMaterial } from "@/scene/ink";
 import type { Tile } from "@/scene/structure";
 import type { ColorToken } from "@/styles/tokens";
 
@@ -14,10 +14,13 @@ export default function Tiles({
   model,
   tiles,
   line = "ink",
+  silhouette = true,
 }: {
   model: string;
   tiles: readonly Tile[];
   line?: ColorToken;
+  /** Flat pieces like floors have no rounded sides, so they can skip the silhouette pass. */
+  silhouette?: boolean;
 }) {
   const { scene } = useGLTF(`/models/arena/${model}.glb`);
 
@@ -50,13 +53,20 @@ export default function Tiles({
   // The merged geometry is ours, not R3F's, so free its GPU memory when it's replaced or unmounted.
   useEffect(() => () => outlines.dispose(), [outlines]);
 
+  const instances = tiles.map((tile, i) => (
+    <Instance key={i} position={tile.position} rotation={[0, tile.turn ?? 0, 0]} />
+  ));
+
   return (
     <>
       <Instances limit={tiles.length} geometry={mesh.geometry} material={surfaceMaterial()}>
-        {tiles.map((tile, i) => (
-          <Instance key={i} position={tile.position} rotation={[0, tile.turn ?? 0, 0]} />
-        ))}
+        {instances}
       </Instances>
+      {silhouette && (
+        <Instances limit={tiles.length} geometry={mesh.geometry} material={silhouetteMaterial()}>
+          {instances}
+        </Instances>
+      )}
       <lineSegments geometry={outlines} material={lineMaterial(line)} />
     </>
   );

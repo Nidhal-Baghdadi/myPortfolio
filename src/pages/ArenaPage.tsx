@@ -70,14 +70,18 @@ export default function ArenaPage() {
     <>
       {!readAsPage && (
         <div className={styles.scene}>
+          {/* flat: no tone mapping, so the paint shows the exact token colours */}
           <Canvas
+            flat
             camera={{
               fov: CAMERA_FOV,
             }}
           >
             <CameraRig stationPosition={stationPositionRef} />
-            <ambientLight intensity={1.6} />
-            <directionalLight position={[5, 10, 5]} intensity={2.2} />
+            {/* three.js divides diffuse light by π, so intensities adding up to π show faces in the lit band at
+                their exact colour; the darker bands shade the rest */}
+            <ambientLight intensity={Math.PI * 0.35} />
+            <directionalLight position={[5, 10, 5]} intensity={Math.PI * 0.65} />
             <color attach="background" args={[cssColor("paper")]} />
             <Arena />
             {STATIONS.map((station) => {

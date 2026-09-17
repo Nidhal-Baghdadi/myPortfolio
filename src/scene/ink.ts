@@ -1,4 +1,12 @@
-import { DataTexture, LineBasicMaterial, MeshToonMaterial, NearestFilter, RedFormat } from "three";
+import {
+  BackSide,
+  DataTexture,
+  LineBasicMaterial,
+  MeshBasicMaterial,
+  MeshToonMaterial,
+  NearestFilter,
+  RedFormat,
+} from "three";
 import { cssColor, type ColorToken } from "@/styles/tokens";
 
 /** Edges sharper than this angle, in degrees, get a line; gentler ones (flat faces, low-poly curves) don't. */
@@ -42,4 +50,34 @@ export function surfaceMaterial(color: ColorToken = "paper") {
     surfaces.set(color, material);
   }
   return material;
+}
+
+/** Silhouette thickness as a fraction of the distance to the camera: about 2px at the arena's field of view. */
+const SILHOUETTE_WIDTH = 0.0012;
+
+let silhouette: MeshBasicMaterial | undefined;
+
+/**
+ * Outlines what crease lines can't: the edge of a rounded side as seen from the camera, which moves as the
+ * camera does. A second copy of the mesh is drawn inside out (BackSide) and pushed outwards along its
+ * normals; the model hides the copy except the rim around its outline. The push grows with distance, so the
+ * rim stays about the same width on screen.
+ */
+export function silhouetteMaterial() {
+  if (!silhouette) {
+    silhouette = new MeshBasicMaterial({ color: cssColor("ink"), side: BackSide });
+    silhouette.onBeforeCompile = (shader) => {
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <project_vertex>",
+        `#include <project_vertex>
+        vec3 hullNormal = normal;
+        #ifdef USE_INSTANCING
+          hullNormal = mat3(instanceMatrix) * hullNormal;
+        #endif
+        mvPosition.xyz += normalize(normalMatrix * hullNormal) * ${SILHOUETTE_WIDTH} * -mvPosition.z;
+        gl_Position = projectionMatrix * mvPosition;`,
+      );
+    };
+  }
+  return silhouette;
 }
