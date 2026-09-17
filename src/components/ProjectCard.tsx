@@ -1,5 +1,6 @@
 import type { Project } from "@/content/types";
 import styles from "./StationPanel.module.css";
+import { Link } from "react-router";
 import ActionLink from "./ActionLink";
 
 export default function ProjectCard({ project }: { project: Project }) {
@@ -20,13 +21,14 @@ export default function ProjectCard({ project }: { project: Project }) {
         ))}
       </ul>
 
-      <ActionLink
-        action={{
-          kind: "external",
-          label: "Code on GitHub",
-          href: project.repo,
-        }}
-      />
+      <div className={styles.cardLinks}>
+        <Link className={styles.action} to={`/projects/${project.slug}`}>
+          Details
+        </Link>
+        {project.links.map((link) => (
+          <ActionLink key={link.label} action={link} />
+        ))}
+      </div>
     </article>
   );
 }

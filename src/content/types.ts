@@ -19,12 +19,30 @@ export type StationContent =
 
 
 
+export type ProjectStatus = "Live" | "In development" | "Prototype";
+
+/** An image with the text a reader needs: alt describes it, caption explains it. */
+export type Figure = { src: `/${string}`; alt: string; caption: string };
+
 export type Project = {
+    slug: string;
     title: string;
+    /** One line, shown under the title on the project page. */
+    tagline: string;
+    /** Short summary for the card on the Plinths panel. */
     description: string;
     tags: readonly string[];
     image: `/${string}`;
-    repo: `https://${string}`;
+    facts: { role: string; period: string; status: ProjectStatus };
+    /** Why the project exists. */
+    problem: string;
+    /** "How it works", in order. */
+    steps: readonly string[];
+    highlights: readonly { title: string; text: string }[];
+    stack: readonly { area: string; items: readonly string[] }[];
+    gallery: readonly Figure[];
+    /** Public links only; a private repository is simply left out. */
+    links: readonly Action[];
 }
 
 export type Role = {

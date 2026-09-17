@@ -26,3 +26,4 @@
 .roles { list-style: none; margin: 0 0 1rem; padding: 0; }
 .roles li { padding: 0.75rem 0; border-top: 1px solid var(--color-rule); }
 .meta { margin: 0 0 0.35rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-graphite); }
+.cardLinks { display: flex; flex-wrap: wrap; gap: 0.5rem; }
