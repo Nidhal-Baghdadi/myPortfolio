@@ -113,3 +113,5 @@ export const WALLS: WallSegment[] = [
         size: [WALL_THICKNESS, WALL_HEIGHT, ARENA_DEPTH],
     },
 ];
+
+export type ArenaStation = (typeof STATIONS)[number]

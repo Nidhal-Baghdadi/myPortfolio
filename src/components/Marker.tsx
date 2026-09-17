@@ -1,14 +1,13 @@
 import { useFrame } from "@react-three/fiber";
-import type { Station } from "../scene/arena";
 import { useRef } from "react";
 import type { Mesh } from "three";
 
-type MarkerProps = Pick<Station, "x" | "z"> & {
+type MarkerProps = {
   color: string;
   animate?: boolean;
 };
 
-export default function Marker({ x, z, color, animate }: MarkerProps) {
+export default function Marker({ color, animate }: MarkerProps) {
   const meshRef = useRef<Mesh>(null);
 
   useFrame((state) => {
@@ -20,7 +19,7 @@ export default function Marker({ x, z, color, animate }: MarkerProps) {
   });
 
   return (
-    <mesh ref={meshRef} position={[x, 0.25, z]}>
+    <mesh ref={meshRef} position={[0, 0.25, 0]}>
       <boxGeometry args={[1, 0.5, 1]} />
       <meshStandardMaterial color={color} />
     </mesh>

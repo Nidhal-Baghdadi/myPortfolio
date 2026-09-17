@@ -3,7 +3,7 @@ import Arena from "./components/Arena";
 import { ARENA_DEPTH, STATIONS } from "./scene/arena";
 import { cssColor } from "./styles/tokens";
 import styles from "./App.module.css";
-import Marker from "./components/Marker";
+import StationGroup from "./components/StationGroup";
 import { CAMERA_FOV } from "./scene/camera";
 import CameraRig from "./scene/CameraRig";
 import StationPanel from "./components/StationPanel";
@@ -55,15 +55,8 @@ export default function App() {
             <axesHelper args={[3]} />
             <Arena />
             {STATIONS.map((station) => {
-              const isActive = station.id === activeStation.id;
               return (
-                <Marker
-                  key={station.id}
-                  x={station.x}
-                  z={station.z}
-                  color={cssColor(isActive ? "acid" : "paper")}
-                  animate={isActive}
-                />
+               <StationGroup key={station.id} station={station} isActive={station.id === activeStation.id} />
               );
             })}
           </Canvas>
