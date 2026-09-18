@@ -23,6 +23,8 @@ export type Shot = {
 export type Station = {
     id: string;
     name: string;
+    /** What the station is about, in the visitor's words: shown on the map. */
+    topic: string;
     x: number;
     z: number;
     shot: Shot;
@@ -31,36 +33,42 @@ export type Station = {
 export const STATIONS = [{
     id: "gate",
     name: "Gate",
+    topic: "Welcome",
     x: 0,
     z: 6.5,
     shot: { distance: 125, elevation: 18, azimuth: 15, fov: 28, lookHeight: -2, clearPanel: 0 }
 }, {
     id: "podium",
     name: "Podium",
+    topic: "About me",
     x: 0,
     z: -0.1,
     shot: { distance: 5, elevation: 9, azimuth: 15, fov: 55, lookHeight: 0.9, clearPanel: 1 }
 }, {
     id: "plinths",
     name: "Plinths",
+    topic: "Projects",
     x: 4.5,
     z: 3.4,
     shot: { distance: 4.5, elevation: 9, azimuth: -112, fov: 55, lookHeight: 0.9, clearPanel: 1 }
 }, {
     id: "toolRack",
     name: "Tool Rack",
+    topic: "Skills",
     x: 4.5,
     z: -4.1,
     shot: { distance: 4.5, elevation: 9, azimuth: -33, fov: 55, lookHeight: 0.8, clearPanel: 1 }
 }, {
     id: "statues",
     name: "Statues",
+    topic: "Experience",
     x: -4.1,
     z: -4.1,
     shot: { distance: 4.5, elevation: 9, azimuth: 60, fov: 55, lookHeight: 0.9, clearPanel: 1 }
 }, {
     id: "postern",
     name: "Postern",
+    topic: "Contact",
     x: -5.8,
     z: 4,
     shot: { distance: 4.5, elevation: 9, azimuth: 142, fov: 55, lookHeight: 0.9, clearPanel: 1 }
@@ -125,3 +133,17 @@ export const WALLS: WallSegment[] = [
 
 
 export type ArenaStation = (typeof STATIONS)[number]
+
+/** A station turns to face the arena's centre; its props are laid out in that turned (local) space. */
+export function stationFacing(station: Pick<Station, "x" | "z">): number {
+    return Math.atan2(-station.x, -station.z);
+}
+
+/** Converts a point in a station's local space (x, z on the floor) to arena coordinates. */
+export function toArena(station: Pick<Station, "x" | "z">, [x, z]: readonly [number, number]): [number, number] {
+    const facing = stationFacing(station);
+    return [
+        station.x + x * Math.cos(facing) + z * Math.sin(facing),
+        station.z - x * Math.sin(facing) + z * Math.cos(facing),
+    ];
+}

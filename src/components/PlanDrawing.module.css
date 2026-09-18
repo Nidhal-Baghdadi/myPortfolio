@@ -1,0 +1,19 @@
+/* Sizes are in arena units: the SVG's viewBox is the arena, so 0.1 is a tenth of a floor tile. */
+.plan { display: block; width: 100%; height: auto; font-family: var(--font-mono); }
+.wall { fill: var(--color-ink); }
+.stand { fill: var(--color-rule); stroke: var(--color-paper); stroke-width: 0.06; }
+.prop { fill: var(--color-rule); stroke: var(--color-graphite); stroke-width: 0.04; }
+.ring { fill: none; stroke: var(--color-graphite); stroke-width: 0.05; stroke-dasharray: 0.25 0.2; }
+/* The active ring: an acid band over a wider ink rim, so it reads on paper as well as it does on the floor. */
+.activeRim { fill: none; stroke: var(--color-ink); stroke-width: 0.3; }
+.activeBand { fill: none; stroke: var(--color-acid); stroke-width: 0.18; }
+
+.station { fill: var(--color-paper); stroke: var(--color-ink); stroke-width: 0.15; }
+.number { fill: var(--color-ink); font-weight: 600; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+a[aria-current] .station { fill: var(--color-acid); }
+a:focus-visible .station { stroke-width: 0.35; }
+a:hover .station { fill: var(--color-acid); }
+
+/* A paper halo (stroke painted under the fill) keeps labels legible where they cross rings and props. */
+.label { fill: var(--color-ink); font-size: 0.5px; stroke: var(--color-paper); stroke-width: 0.18px; paint-order: stroke; stroke-linejoin: round; }
+.labelName { font-family: var(--font-display); font-weight: 800; font-size: 0.7px; text-transform: uppercase; }

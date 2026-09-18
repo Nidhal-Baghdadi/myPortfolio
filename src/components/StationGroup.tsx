@@ -1,5 +1,5 @@
 import { memo, Suspense } from "react";
-import type { ArenaStation } from "@/scene/arena";
+import { type ArenaStation, stationFacing } from "@/scene/arena";
 import { STATION_PROPS, STATION_RINGS } from "@/scene/props";
 import Marker from "./Marker";
 import Placeholder from "./Placeholder";
@@ -12,7 +12,7 @@ function StationGroup({
   station: ArenaStation;
   isActive: boolean;
 }) {
-  const facing = Math.atan2(-station.x, -station.z);
+  const facing = stationFacing(station);
 
   return (
     <group position={[station.x, 0, station.z]} rotation={[0, facing, 0]}>
