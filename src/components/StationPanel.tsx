@@ -22,7 +22,7 @@ export default function StationPanel({ station, content }: { station: ArenaStati
       media.add(MOTION_OK, () => {
         const heading = root.current?.querySelector("[data-split]");
         if (heading) riseLetters(heading);
-        gsap.from("[data-reveal]", { y: 18, autoAlpha: 0, duration: 0.55, ease: "power3.out", stagger: 0.05, delay: 0.1 });
+        gsap.from("[data-reveal]", { y: 18, opacity: 0, duration: 0.55, ease: "power3.out", stagger: 0.05, delay: 0.1 });
       });
     },
     { scope: root },

@@ -3,7 +3,15 @@ import type { Project } from "@/content/types";
 import ActionLink from "./ActionLink";
 import styles from "./Station.module.css";
 
-export default function ProjectCard({ project, index }: { project: Project; index: number }) {
+export default function ProjectCard({
+  project,
+  index,
+  Heading,
+}: {
+  project: Project;
+  index: number;
+  Heading: "h2" | "h3";
+}) {
   const { status, role, period } = project.facts;
   return (
     <article className={styles.card} data-reveal>
@@ -16,9 +24,9 @@ export default function ProjectCard({ project, index }: { project: Project; inde
           <span className={status === "Live" ? styles.statusLive : styles.status}>{status}</span>
           <span>{period}</span>
         </p>
-        <h3 className={styles.cardTitle}>
+        <Heading className={styles.cardTitle}>
           <Link to={`/projects/${project.slug}`}>{project.title}</Link>
-        </h3>
+        </Heading>
         <p className={styles.cardRole}>{role}</p>
         <p className={styles.paragraph}>{project.description}</p>
         <ul className={styles.tags}>

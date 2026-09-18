@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import ArenaPlan from "../components/ArenaPlan";
 import StationPanel from "../components/StationPanel";
@@ -11,7 +11,11 @@ import styles from "./ArenaPage.module.css";
  * The 3D tour's interface: the scene itself lives in the site layout. Scrolling the (invisible) track sets
  * the tour position the camera follows, and the station nearest to it is the active one.
  */
-export default function ArenaView({ onReadAsPage }: { onReadAsPage: () => void }) {
+export default function ArenaView({ onReadAsPage, focusSwitch }: { onReadAsPage: () => void; focusSwitch: boolean }) {
+  const toggle = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (focusSwitch) toggle.current?.focus();
+  }, [focusSwitch]);
   const { setStationPosition, activeId, setActiveId } = useScene();
   const activeStation = STATIONS.find((station) => station.id === activeId) ?? STATIONS[0];
 
@@ -48,7 +52,7 @@ export default function ArenaView({ onReadAsPage }: { onReadAsPage: () => void }
   return (
     <>
       <main>
-        <button type="button" className={styles.toggle} onClick={onReadAsPage}>
+        <button ref={toggle} type="button" className={styles.toggle} onClick={onReadAsPage}>
           Read as a page
         </button>
 

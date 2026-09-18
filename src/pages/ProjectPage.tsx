@@ -49,11 +49,11 @@ export default function ProjectPage() {
       media.add(MOTION_OK, () => {
         const title = root.current?.querySelector("[data-split]");
         if (title) riseLetters(title, { delay: 0.15 });
-        gsap.from("[data-intro]", { y: 16, autoAlpha: 0, duration: 0.6, ease: "power3.out", stagger: 0.07, delay: 0.25 });
+        gsap.from("[data-intro]", { y: 16, opacity: 0, duration: 0.6, ease: "power3.out", stagger: 0.07, delay: 0.25 });
         for (const part of gsap.utils.toArray<HTMLElement>("[data-part]")) {
           gsap.from(part, {
             y: 28,
-            autoAlpha: 0,
+            opacity: 0,
             duration: 0.7,
             ease: "power3.out",
             scrollTrigger: { trigger: part, start: "top 85%", once: true },

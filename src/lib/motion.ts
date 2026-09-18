@@ -6,6 +6,12 @@ import { SplitText } from "gsap/SplitText";
 // Registered once, here: every component imports GSAP from this module, never from "gsap" directly.
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
+/**
+ * Reveals fade opacity only, never visibility (GSAP's autoAlpha): a visibility-hidden element can't take
+ * keyboard focus, so Tab would skip every section not yet scrolled into view. At opacity 0 it stays focusable,
+ * and focusing it scrolls it into view, which plays its reveal.
+ */
+
 /** Motion runs only for visitors who haven't asked their system to reduce it. */
 export const MOTION_OK = "(prefers-reduced-motion: no-preference)";
 

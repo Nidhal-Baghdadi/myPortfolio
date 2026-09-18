@@ -25,7 +25,7 @@ export default function StationText({
     <>
       <StationHeader station={station} content={content} level={level} headingId={headingId} />
       {actionsFirst && actions}
-      <StationBody content={content} />
+      <StationBody content={content} itemHeading={level === "h1" ? "h2" : "h3"} />
       {!actionsFirst && actions}
     </>
   );

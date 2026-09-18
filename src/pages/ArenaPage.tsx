@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useScene } from "../scene/sceneContext";
 import ArenaView from "./ArenaView";
 import ReadingView from "./ReadingView";
@@ -8,9 +9,16 @@ import ReadingView from "./ReadingView";
  */
 export default function ArenaPage() {
   const { readAsPage, setReadAsPage } = useScene();
+  // Set when the visitor switches: the button they pressed disappears with its view, so the new view's
+  // switch takes focus instead of dropping it to the top of the document. Not on first load.
+  const [switched, setSwitched] = useState(false);
+  const switchTo = (page: boolean) => {
+    setSwitched(true); // batched with the mode change: one render
+    setReadAsPage(page);
+  };
   return readAsPage ? (
-    <ReadingView onShowArena={() => setReadAsPage(false)} />
+    <ReadingView onShowArena={() => switchTo(false)} focusSwitch={switched} />
   ) : (
-    <ArenaView onReadAsPage={() => setReadAsPage(true)} />
+    <ArenaView onReadAsPage={() => switchTo(true)} focusSwitch={switched} />
   );
 }

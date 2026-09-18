@@ -1,8 +1,8 @@
 /* Page mode: an editorial single column, wide enough for big type, with a sticky header. */
 /* overflow-x: clip keeps offset shadows from making the page scroll sideways on phones. */
 .page { min-height: 100vh; overflow-x: clip; color: var(--color-ink); background: var(--color-paper); }
-/* Anchor jumps glide, and land below the sticky header rather than under it. */
-.page :global(section) { scroll-margin-top: 4.5rem; }
+/* Anchor jumps and keyboard focus both land below the sticky header, never under it. */
+:global(html):has(.page) { scroll-padding-top: 5.5rem; }
 @media (prefers-reduced-motion: no-preference) {
   :global(html):has(.page) { scroll-behavior: smooth; }
 }

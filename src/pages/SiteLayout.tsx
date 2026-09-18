@@ -15,7 +15,8 @@ function Scene() {
   const shown = !readAsPage && (pathname === "/" || onProject);
   if (!shown) return null;
   return (
-    <div className={styles.scene} data-still={onProject || undefined}>
+    // aria-hidden: the scene is pure picture; everything it shows is in the page's text too.
+    <div className={styles.scene} data-still={onProject || undefined} aria-hidden="true">
       <Suspense fallback={<p className={styles.loading}>Entering the arena…</p>}>
         <SceneCanvas activeId={activeId} focusKey={pathname} animate={!prefersReducedMotion} still={onProject} />
       </Suspense>

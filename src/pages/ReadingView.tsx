@@ -12,7 +12,12 @@ import styles from "./ReadingView.module.css";
  * The same stations as a website: every station is a section, in tour order, under a sticky header whose
  * navigation follows your scroll. Sections reveal as they enter the view (unless motion is reduced).
  */
-export default function ReadingView({ onShowArena }: { onShowArena: () => void }) {
+export default function ReadingView({ onShowArena, focusSwitch }: { onShowArena: () => void; focusSwitch: boolean }) {
+  const toggle = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    // preventScroll: the view has just scrolled to your station; don't yank it back to the header.
+    if (focusSwitch) toggle.current?.focus({ preventScroll: true });
+  }, [focusSwitch]);
   const root = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState<StationId>(STATIONS[0].id);
 
@@ -55,7 +60,7 @@ export default function ReadingView({ onShowArena }: { onShowArena: () => void }
           if (heading) riseLetters(heading, { scrollTrigger: trigger });
           gsap.from(section.querySelectorAll("[data-reveal]"), {
             y: 24,
-            autoAlpha: 0,
+            opacity: 0,
             duration: 0.6,
             ease: "power3.out",
             stagger: 0.06,
@@ -85,7 +90,7 @@ export default function ReadingView({ onShowArena }: { onShowArena: () => void }
             ))}
           </ol>
         </nav>
-        <button type="button" className={styles.arenaButton} onClick={onShowArena}>
+        <button ref={toggle} type="button" className={styles.arenaButton} onClick={onShowArena}>
           Show the arena
         </button>
       </header>

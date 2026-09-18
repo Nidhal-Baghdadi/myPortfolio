@@ -16,12 +16,15 @@ function Facts({ facts }: { facts: readonly Fact[] }) {
   );
 }
 
-function Skills({ groups, core }: { groups: readonly SkillGroup[]; core: readonly string[] }) {
+/** Item headings sit one level below the station's heading: h2 under the panel's h1, h3 under page mode's h2. */
+export type ItemHeading = "h2" | "h3";
+
+function Skills({ groups, core, Heading }: { groups: readonly SkillGroup[]; core: readonly string[]; Heading: ItemHeading }) {
   return (
     <div className={styles.skillGroups}>
       {groups.map((group) => (
         <section key={group.area} className={styles.skillGroup} data-reveal>
-          <h3 className={styles.area}>{group.area}</h3>
+          <Heading className={styles.area}>{group.area}</Heading>
           <ul className={styles.tags}>
             {group.items.map((item) => {
               const isCore = core.includes(item);
@@ -40,7 +43,7 @@ function Skills({ groups, core }: { groups: readonly SkillGroup[]; core: readonl
 }
 
 /** Newest first; the first role is the current one when its dates run to "Present". */
-function Timeline({ roles }: { roles: readonly Role[] }) {
+function Timeline({ roles, Heading }: { roles: readonly Role[]; Heading: ItemHeading }) {
   return (
     <ol className={styles.timeline}>
       {roles.map((role) => {
@@ -53,7 +56,7 @@ function Timeline({ roles }: { roles: readonly Role[] }) {
               <span className={styles.roleType}>{role.type}</span>
             </p>
             <div>
-              <h3 className={styles.itemTitle}>{role.title}</h3>
+              <Heading className={styles.itemTitle}>{role.title}</Heading>
               <p className={styles.place}>{role.place}</p>
               <p className={styles.paragraph}>{role.description}</p>
             </div>
@@ -65,7 +68,7 @@ function Timeline({ roles }: { roles: readonly Role[] }) {
 }
 
 /** The station's own content, designed for its kind of information. */
-export default function StationBody({ content }: { content: StationContent }) {
+export default function StationBody({ content, itemHeading }: { content: StationContent; itemHeading: ItemHeading }) {
   switch (content.kind) {
     case "plain":
       return null;
@@ -88,19 +91,19 @@ export default function StationBody({ content }: { content: StationContent }) {
       );
 
     case "skills":
-      return <Skills groups={content.items} core={content.core} />;
+      return <Skills groups={content.items} core={content.core} Heading={itemHeading} />;
 
     case "projects":
       return (
         <div className={styles.projects}>
           {content.items.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
+            <ProjectCard key={project.slug} project={project} index={i} Heading={itemHeading} />
           ))}
         </div>
       );
 
     case "roles":
-      return <Timeline roles={content.items} />;
+      return <Timeline roles={content.items} Heading={itemHeading} />;
 
     default: {
       // Every kind is handled above, so `content` has been narrowed to nothing here.
