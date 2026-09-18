@@ -1,11 +1,11 @@
-import { Suspense } from "react";
+import { memo, Suspense } from "react";
 import type { ArenaStation } from "@/scene/arena";
-import { STATION_PROPS } from "@/scene/props";
+import { STATION_PROPS, STATION_RINGS } from "@/scene/props";
 import Marker from "./Marker";
 import Placeholder from "./Placeholder";
 import PropModel from "./PropModel";
 
-export default function StationGroup({
+function StationGroup({
   station,
   isActive,
 }: {
@@ -16,7 +16,7 @@ export default function StationGroup({
 
   return (
     <group position={[station.x, 0, station.z]} rotation={[0, facing, 0]}>
-      <Marker color={isActive ? "acid" : "paper"} animate={isActive} />
+      {isActive && <Marker ring={STATION_RINGS[station.id]} animate />}
 
       {STATION_PROPS[station.id].map((prop, i) => (
         // fixed data that never reorders, so the index is a safe part of the key
@@ -27,3 +27,7 @@ export default function StationGroup({
     </group>
   );
 }
+
+// Memoised: re-renders only when its own props change, not whenever the page does (e.g. on every
+// station change, which only concerns the two stations swapping state).
+export default memo(StationGroup);

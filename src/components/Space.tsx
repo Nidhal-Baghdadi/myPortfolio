@@ -1,8 +1,9 @@
 import { Stars, Trail, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Box3, Color, DoubleSide, type Group, MathUtils, type Mesh, MeshBasicMaterial, Vector3 } from "three";
-import { inkify, outsideMaterial } from "@/scene/ink";
+import { memo, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { BackSide, Color, DoubleSide, type Group, MathUtils, Mesh, MeshBasicMaterial, Vector3 } from "three";
+import { lineMaterial, outsideMaterial, silhouetteMaterial, surfaceMaterial } from "@/scene/ink";
+import { inkModelOf } from "@/scene/inkModel";
 import { GLOBE_CENTER, GLOBE_RADIUS, SPACE_RADIUS } from "@/scene/space";
 import { cssColor } from "@/styles/tokens";
 
@@ -20,7 +21,9 @@ function Globe() {
         uniforms={uniforms}
         transparent
         depthWrite={false}
-        side={DoubleSide}
+        // Back faces only: from outside they draw the far half's rim, from inside they're all you see anyway.
+        // Drawing both sides would cover the screen twice when the globe fills the view.
+        side={BackSide}
         vertexShader={
           /* glsl */ `
           varying vec3 vNormal;
@@ -98,27 +101,27 @@ function Comet({ flight, onGone }: { flight: Flight; onGone: (id: number) => voi
   // Per-frame motion: a copy of the launch velocity, so the flight passed in as a prop is never changed.
   const state = useRef({ velocity: flight.velocity.clone(), bounced: false, sinceImpact: IMPACT_TIME, gone: false });
 
-  const { rock, edges, ringMaterial } = useMemo(() => {
-    const rock = scene.clone(true);
-    const size = new Box3().setFromObject(rock).getSize(new Vector3());
-    rock.scale.setScalar(COMET_SIZE / Math.max(size.x, size.y, size.z));
-    // In colour from the outside palette, like the island: things from outside the page are in colour.
-    const edges = inkify(rock, (mesh) => outsideMaterial(mesh.material));
-    const ringMaterial = new MeshBasicMaterial({
-      color: cssColor("paper"),
-      transparent: true,
-      side: DoubleSide,
-      depthWrite: false,
+  // The rock's shape and outline are computed once and shared by every launch (see inkModelOf).
+  const { ink, scale, paint } = useMemo(() => {
+    const ink = inkModelOf(scene);
+    const size = ink.box.getSize(new Vector3());
+    let original: Mesh["material"] | undefined;
+    scene.traverse((node) => {
+      if (!original && node instanceof Mesh) original = node.material;
     });
-    return { rock, edges, ringMaterial };
+    // In colour from the outside palette, like the island: things from outside the page are in colour.
+    return {
+      ink,
+      scale: COMET_SIZE / Math.max(size.x, size.y, size.z),
+      paint: original ? outsideMaterial(original) : surfaceMaterial("slate"),
+    };
   }, [scene]);
 
-  useEffect(
-    () => () => {
-      edges.forEach((geometry) => geometry.dispose());
-      ringMaterial.dispose();
-    },
-    [edges, ringMaterial],
+  // Each rock has its own ring material, for its own fade. Deliberately never disposed: disposing the last
+  // user of a shader program makes three.js delete the program, and the next launch would then recompile
+  // it, freezing the page for a moment. An undisposed material is just a small object the GC collects.
+  const [ringMaterial] = useState(
+    () => new MeshBasicMaterial({ color: cssColor("paper"), transparent: true, side: DoubleSide, depthWrite: false }),
   );
 
   useFrame((_, rawDelta) => {
@@ -168,7 +171,11 @@ function Comet({ flight, onGone }: { flight: Flight; onGone: (id: number) => voi
       {/* Starts at the launch point, so the trail doesn't streak in from the origin on the first frame. */}
       <Trail width={2.2} length={4} color={paper} attenuation={(w) => w * w}>
         <group ref={head} position={flight.start}>
-          <primitive object={rock} />
+          <group scale={scale}>
+            <mesh geometry={ink.surface} material={paint} />
+            <mesh geometry={ink.surface} material={silhouetteMaterial()} />
+            <lineSegments geometry={ink.edges} material={lineMaterial()} />
+          </group>
         </group>
       </Trail>
       <mesh ref={ring} material={ringMaterial} visible={false}>
@@ -208,7 +215,7 @@ function Comets() {
 useGLTF.preload(ROCK_URL);
 
 /** Where the arena floats: a starfield, the glass globe around the island, and comets bouncing off it. */
-export default function Space({ animate }: { animate: boolean }) {
+function Space({ animate }: { animate: boolean }) {
   return (
     <>
       <Stars radius={220} depth={120} count={7000} factor={5} saturation={0} fade speed={animate ? 0.6 : 0} />
@@ -217,3 +224,7 @@ export default function Space({ animate }: { animate: boolean }) {
     </>
   );
 }
+
+// Memoised: re-renders only when its own props change, not whenever the page does (e.g. on every
+// station change, which only concerns the two stations swapping state).
+export default memo(Space);

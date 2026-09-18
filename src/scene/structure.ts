@@ -66,4 +66,27 @@ export const SCENERY: PropSpec[] = [
   { name: "bricks", position: [halfW - 1.2, 0.2, halfD - 1.2], size: [0.8, 0.4, 0.8] },
   { name: "bricks", position: [-3, 0.2, halfD - 1], size: [0.8, 0.4, 0.8], turn: 1.2 },
   { name: "broken-column", position: [-halfW + 1, 0.36, halfD - 1.5], size: [0.6, 0.72, 0.6] },
+
+  // The playground: office life spilling into the arena, in the gaps between the stations' rings.
+  // A table tennis game left mid-match, centre left.
+  { name: "table-tennis", position: [-3, 0.4, 1.2], size: [2.8, 0.8, 1.6] },
+  { name: "paddle", position: [-3.8, 0.82, 1.5], size: [0.3, 0.04, 0.3], tilt: Math.PI / 2, turn: 0.6 },
+  { name: "paddle", position: [-2.1, 0.82, 0.9], size: [0.3, 0.04, 0.3], tilt: Math.PI / 2, turn: -2.2 },
+  { name: "rubiks-cube", position: [-2.6, 0.86, 1.7], size: [0.12, 0.12, 0.12], turn: 0.5 },
+  { name: "coffee-cup", position: [-3.4, 0.86, 0.8], size: [0.12, 0.13, 0.12] },
+  // A break corner against the right wall, between the plinths and the tool rack.
+  { name: "vending-machine", position: [halfW - 0.95, 0.95, -0.3], size: [1.2, 1.9, 1.2], turn: -Math.PI / 2 },
+  { name: "water-cooler", position: [halfW - 0.7, 0.65, 0.75], size: [0.6, 1.3, 0.6], turn: -Math.PI / 2 },
+  { name: "potted-plant", position: [halfW - 0.8, 0.6, -1.4], size: [0.6, 1.2, 0.6] },
+  // Storage at the back, between the statues and the tool rack.
+  { name: "cardboard-boxes", position: [-1.8, 0.4, -4.6], size: [1.2, 0.8, 1.2], turn: 0.3 },
+  { name: "cardboard-box", position: [-0.9, 0.25, -5.2], size: [0.5, 0.5, 0.5], turn: 0.7 },
+  { name: "ladder", position: [-2.7, 1.1, -5.3], size: [0.6, 2.2, 0.6], turn: 0.4 },
+  { name: "whiteboard", position: [1.8, 0.8, -5], size: [1.8, 1.6, 0.6], turn: -0.35 },
+  // Small details.
+  { name: "houseplant", position: [2.2, 0.45, 2.6], size: [0.5, 0.9, 0.5] },
+  { name: "trashcan", position: [3.2, 0.3, halfD - 1.1], size: [0.45, 0.6, 0.45] },
+  { name: "soda-can", position: [3.7, 0.04, halfD - 1.6], size: [0.12, 0.08, 0.12], turn: 1.1 },
+  { name: "fire-extinguisher", position: [-halfW + 0.6, 0.35, 1.9], size: [0.35, 0.7, 0.35], turn: Math.PI / 2 },
+  { name: "dartboard", position: [-halfW + 0.35, 0.55, 0.3], size: [0.1, 0.6, 0.6] },
 ];

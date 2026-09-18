@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { memo, Suspense } from "react";
 import { ARENA_DEPTH, ARENA_WIDTH, WALLS } from "../scene/arena";
 import {
   FLOOR_DETAIL_TILES,
@@ -29,15 +29,15 @@ function BoxArena() {
   );
 }
 
-export default function Arena() {
+function Arena() {
   return (
     <>
       <Suspense fallback={null}>
         <Island />
       </Suspense>
       <Suspense fallback={<BoxArena />}>
-        <Tiles model="floor" tiles={FLOOR_TILES} line="rule" silhouette={false} />
-        <Tiles model="floor-detail" tiles={FLOOR_DETAIL_TILES} line="rule" silhouette={false} />
+        <Tiles model="floor" tiles={FLOOR_TILES} line="graphite" silhouette={false} />
+        <Tiles model="floor-detail" tiles={FLOOR_DETAIL_TILES} line="graphite" silhouette={false} />
         <Tiles model="wall" tiles={WALL_TILES} />
         <Tiles model="column" tiles={PILLAR_TILES} />
         <Tiles model="stairs" tiles={STAND_TILES} />
@@ -52,3 +52,7 @@ export default function Arena() {
     </>
   );
 }
+
+// Memoised: re-renders only when its own props change, not whenever the page does (e.g. on every
+// station change, which only concerns the two stations swapping state).
+export default memo(Arena);

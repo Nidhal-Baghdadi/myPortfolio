@@ -24,6 +24,22 @@ export const PROP_MODELS = {
   tree: "tree",
   bricks: "bricks",
   "broken-column": "column-damaged",
+  "table-tennis": "table-tennis",
+  paddle: "paddle",
+  "rubiks-cube": "rubiks-cube",
+  "coffee-cup": "coffee-cup",
+  "vending-machine": "vending-machine",
+  "water-cooler": "water-cooler",
+  "potted-plant": "potted-plant",
+  houseplant: "houseplant",
+  "cardboard-boxes": "cardboard-boxes",
+  "cardboard-box": "cardboard-box",
+  ladder: "ladder",
+  whiteboard: "whiteboard",
+  trashcan: "trashcan",
+  "soda-can": "soda-can",
+  "fire-extinguisher": "fire-extinguisher",
+  dartboard: "dartboard",
 } as const;
 
 export type PropName = keyof typeof PROP_MODELS;
@@ -86,3 +102,30 @@ export const STATION_PROPS = {
     { name: "message-board", position: [-1.3, 1, -1.2], size: [1.4, 1.1, 0.2], turn: -Math.PI / 2 },
   ],
 } satisfies MyRecord<StationId, readonly PropSpec[]>;
+
+/** A circle on the floor, in the station's local space. */
+export type Ring = { centre: [x: number, z: number]; radius: number };
+
+/** Space left between the outermost prop and the ring. */
+const RING_MARGIN = 0.5;
+
+/**
+ * The smallest circle (around the footprint's centre) that encloses every prop's box and the standing spot
+ * at the station's origin, plus a margin: derived from the props, so it follows any layout change.
+ */
+function ringAround(props: readonly PropSpec[]): Ring {
+  const corners: [number, number][] = [[0, 0]];
+  for (const { position: [x, , z], size: [w, , d] } of props) {
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) corners.push([x + (sx * w) / 2, z + (sz * d) / 2]);
+  }
+  const xs = corners.map(([x]) => x);
+  const zs = corners.map(([, z]) => z);
+  const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
+  const cz = (Math.min(...zs) + Math.max(...zs)) / 2;
+  const radius = Math.max(...corners.map(([x, z]) => Math.hypot(x - cx, z - cz)));
+  return { centre: [cx, cz], radius: radius + RING_MARGIN };
+}
+
+export const STATION_RINGS = Object.fromEntries(
+  Object.entries(STATION_PROPS).map(([id, props]) => [id, ringAround(props)]),
+) as MyRecord<StationId, Ring>;

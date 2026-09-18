@@ -1,8 +1,14 @@
 import { useFrame } from "@react-three/fiber";
-import type { RefObject } from "react";
+import { type RefObject, useRef } from "react";
 import { MathUtils, PerspectiveCamera, Vector3 } from "three";
 import { STATIONS } from "./arena";
 import { orbitPosition } from "./camera";
+
+/**
+ * How fast the camera catches up with the scroll position, per second. A mouse wheel scrolls in steps of
+ * ~100px; followed directly, every step is a jump. Easing toward it turns the steps into one smooth glide.
+ */
+const FOLLOW_RATE = 6;
 
 /** On wide screens the panel covers the left third, so the station is framed this far right of centre (in half-widths). */
 const PANEL_CLEARANCE = 0.3;
@@ -16,16 +22,23 @@ export default function CameraRig({
 }: {
   stationPosition: RefObject<number>;
 }) {
-  useFrame(({ camera }) => {
+  const eased = useRef<number | null>(null);
+
+  useFrame(({ camera }, delta) => {
     const last = STATIONS.length - 1;
 
-    const position = Math.min(Math.max(stationPosition.current, 0), last);
+    const target = Math.min(Math.max(stationPosition.current, 0), last);
+    // Exponential easing: covers the same share of the remaining gap per second at any frame rate.
+    const previous = eased.current ?? target;
+    const next = previous + (target - previous) * (1 - Math.exp(-FOLLOW_RATE * delta));
+    eased.current = Math.abs(target - next) < 1e-4 ? target : next;
+    const position = eased.current;
 
     const i = Math.floor(position); // the station you're coming from
-    const next = Math.min(i + 1, last); // the station you're heading to
+    const ahead = Math.min(i + 1, last); // the station you're heading to
 
     const from = STATIONS[i];
-    const to = STATIONS[next];
+    const to = STATIONS[ahead];
     if (!from || !to) return;
 
     const f = position - i;

@@ -73,8 +73,14 @@ export default function ArenaPage() {
       {!readAsPage && (
         <div className={styles.scene}>
           {/* flat: no tone mapping, so the paint shows the exact token colours */}
+          {/* dpr capped at 1.5: on high-density screens 2x would render 78% more pixels for barely visible gain */}
           <Canvas
             flat
+            dpr={[1, 1.5]}
+            // Lets a material clip itself with its own planes (the station rings stop at the walls).
+            onCreated={({ gl }) => {
+              gl.localClippingEnabled = true;
+            }}
             camera={{
               fov: STATIONS[0].shot.fov,
             }}
