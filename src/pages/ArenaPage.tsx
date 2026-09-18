@@ -5,18 +5,20 @@ import { STATIONS } from "../scene/arena";
 import { cssColor } from "../styles/tokens";
 import styles from "./ArenaPage.module.css";
 import StationGroup from "../components/StationGroup";
-import { CAMERA_FOV } from "../scene/camera";
 import CameraRig from "../scene/CameraRig";
 import StationPanel from "../components/StationPanel";
 import ArenaPlan from "../components/ArenaPlan";
+import Space from "../components/Space";
 import { CONTENT } from "../content";
 
 import { useEffect, useRef, useState } from "react";
 
 export default function ArenaPage() {
-  const [readAsPage, setReadAsPage] = useState(
+  // Read once: it decides the starting mode and whether the scenery moves.
+  const [prefersReducedMotion] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+  const [readAsPage, setReadAsPage] = useState(prefersReducedMotion);
 
   const stationPositionRef = useRef(0);
 
@@ -74,7 +76,7 @@ export default function ArenaPage() {
           <Canvas
             flat
             camera={{
-              fov: CAMERA_FOV,
+              fov: STATIONS[0].shot.fov,
             }}
           >
             <CameraRig stationPosition={stationPositionRef} />
@@ -82,7 +84,8 @@ export default function ArenaPage() {
                 their exact colour; the darker bands shade the rest */}
             <ambientLight intensity={Math.PI * 0.35} />
             <directionalLight position={[5, 10, 5]} intensity={Math.PI * 0.65} />
-            <color attach="background" args={[cssColor("paper")]} />
+            <color attach="background" args={[cssColor("ink")]} />
+            <Space animate={!prefersReducedMotion} />
             <Arena />
             {STATIONS.map((station) => {
               return (

@@ -14,5 +14,16 @@
 .toggle[aria-pressed="true"] { background: var(--color-acid); border-color: var(--color-acid); }
 .toggle:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
 .scene { position: fixed; inset: 0; }
+/* Risograph-style grain over the scene: a tile of SVG noise, blended so it speckles both the dark sky and the
+   paper floor. A CSS layer, so it costs the GPU scene nothing; pointer-events: none lets clicks through. */
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='3' intercept='-1'/%3E%3CfeFuncG type='linear' slope='3' intercept='-1'/%3E%3CfeFuncB type='linear' slope='3' intercept='-1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 .credits { position: fixed; top: 1rem; right: 1rem; z-index: 1; padding: 0.4rem 0.7rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-ink); background: var(--color-paper); border: 1px solid var(--color-rule); }
 .credits:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }

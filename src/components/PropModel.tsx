@@ -1,13 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
-import {
-  Box3,
-  EdgesGeometry,
-  LineSegments,
-  Mesh,
-  Vector3,
-} from "three";
-import { CREASE_ANGLE, lineMaterial, silhouetteMaterial, surfaceMaterial } from "@/scene/ink";
+import { Box3, Vector3 } from "three";
+import { inkify, surfaceMaterial } from "@/scene/ink";
 import { PROP_MODELS, type PropSpec } from "@/scene/props";
 
 const modelUrl = (name: PropSpec["name"]) =>
@@ -48,29 +42,18 @@ export default function PropModel({
     const centre = box.getCenter(new Vector3());
     model.position.set(-centre.x, -size[1] / 2 - box.min.y, -centre.z);
 
-    // Paint every mesh in ink colours, outline its creases and give it a silhouette hull. The copy shares the loaded materials, so
-    // assign a new one instead of editing it. As a child of the mesh, the lines inherit its transform and scale.
     const paint = surfaceMaterial(accent ? "acid" : "paper");
-    const edges: EdgesGeometry[] = [];
-    const meshes: Mesh[] = [];
-    model.traverse((node) => {
-      if (node instanceof Mesh) meshes.push(node);
-    });
-    // Collected first: adding hull meshes while traversing would make the traversal visit them too.
-    for (const node of meshes) {
-      node.material = paint;
-      node.add(new Mesh(node.geometry, silhouetteMaterial()));
-      const geometry = new EdgesGeometry(node.geometry, CREASE_ANGLE);
-      edges.push(geometry);
-      node.add(new LineSegments(geometry, lineMaterial()));
-    }
+    const edges = inkify(model, () => paint);
 
     return { model, edges };
     // Changing the accent rebuilds the copy: cheap for these small models, and it keeps render free of mutation.
   }, [scene, size, turn, tilt, accent]);
 
   // The outline geometries are ours, not R3F's, so free their GPU memory when this copy goes away.
-  useEffect(() => () => edges.forEach((geometry) => geometry.dispose()), [edges]);
+  useEffect(
+    () => () => edges.forEach((geometry) => geometry.dispose()),
+    [edges],
+  );
 
   return (
     <group position={position}>

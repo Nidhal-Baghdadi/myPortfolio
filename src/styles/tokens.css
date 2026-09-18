@@ -8,6 +8,12 @@
   --color-rule: #CDD0C3;
   --color-acid: #E2FF1F;
 
+  /* The only colours allowed for things from outside the page (island, comets…): muted and cool enough
+     that acid stays the one loud colour, the "you are here" signal. Model colours snap to the nearest. */
+  --color-moss: #4E7461;
+  --color-clay: #9C6446;
+  --color-slate: #6C7B89;
+
   /* typefaces (files are loaded in fonts.css) */
   --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
   --font-body: 'Newsreader Variable', Georgia, serif;

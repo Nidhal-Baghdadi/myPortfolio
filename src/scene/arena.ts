@@ -5,11 +5,19 @@ export type WallSegment = {
     size: Vector3Tuple;
 };
 
-/** A camera framing around a station. Angles in degrees; the FOV is shared (CAMERA_FOV). */
+/**
+ * A camera framing around a station: the camera orbits a point `lookHeight` above the station's floor.
+ * Angles in degrees. The FOV is per shot, so the camera can go from a narrow, distant establishing shot
+ * to a wide, eye-level one as you scroll.
+ */
 export type Shot = {
     distance: number;
     elevation: number;
     azimuth: number;
+    fov: number;
+    lookHeight: number;
+    /** 1 frames the station right of centre, clear of the panel (wide screens only); 0 keeps it centred. */
+    clearPanel: number;
 };
 
 export type Station = {
@@ -25,37 +33,37 @@ export const STATIONS = [{
     name: "Gate",
     x: 0,
     z: 6.5,
-    shot: { distance: 14, elevation: 22, azimuth: 15 }
+    shot: { distance: 125, elevation: 18, azimuth: 15, fov: 28, lookHeight: -2, clearPanel: 0 }
 }, {
     id: "podium",
     name: "Podium",
     x: 0,
     z: -0.1,
-    shot: { distance: 13, elevation: 32, azimuth: 15 }
+    shot: { distance: 5, elevation: 9, azimuth: 15, fov: 55, lookHeight: 0.9, clearPanel: 1 }
 }, {
     id: "plinths",
     name: "Plinths",
     x: 4.5,
     z: 3.4,
-    shot: { distance: 12, elevation: 30, azimuth: -112 }
+    shot: { distance: 4.5, elevation: 9, azimuth: -112, fov: 55, lookHeight: 0.9, clearPanel: 1 }
 }, {
     id: "toolRack",
     name: "Tool Rack",
     x: 4.5,
     z: -4.1,
-    shot: { distance: 12, elevation: 30, azimuth: -33 }
+    shot: { distance: 4.5, elevation: 9, azimuth: -33, fov: 55, lookHeight: 0.8, clearPanel: 1 }
 }, {
     id: "statues",
     name: "Statues",
     x: -4.1,
     z: -4.1,
-    shot: { distance: 12, elevation: 32, azimuth: 60 }
+    shot: { distance: 4.5, elevation: 9, azimuth: 60, fov: 55, lookHeight: 0.9, clearPanel: 1 }
 }, {
     id: "postern",
     name: "Postern",
     x: -5.8,
     z: 4,
-    shot: { distance: 12, elevation: 28, azimuth: 142 }
+    shot: { distance: 4.5, elevation: 9, azimuth: 142, fov: 55, lookHeight: 0.9, clearPanel: 1 }
 }] as const satisfies readonly Station[];
 
 export type StationId = (typeof STATIONS)[number]["id"]

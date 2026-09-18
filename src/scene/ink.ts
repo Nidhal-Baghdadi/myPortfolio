@@ -1,13 +1,20 @@
 import {
   BackSide,
+  Color,
   DataTexture,
+  EdgesGeometry,
   LineBasicMaterial,
+  LineSegments,
+  type Material,
+  Mesh,
   MeshBasicMaterial,
+  MeshStandardMaterial,
   MeshToonMaterial,
   NearestFilter,
+  type Object3D,
   RedFormat,
 } from "three";
-import { cssColor, type ColorToken } from "@/styles/tokens";
+import { cssColor, type ColorToken, type OutsideColor } from "@/styles/tokens";
 
 /** Edges sharper than this angle, in degrees, get a line; gentler ones (flat faces, low-poly curves) don't. */
 export const CREASE_ANGLE = 30;
@@ -80,4 +87,52 @@ export function silhouetteMaterial() {
     };
   }
   return silhouette;
+}
+
+/**
+ * Which outside colour a model colour belongs to, by hue family rather than raw RGB distance (which would put
+ * lime grass closer to clay than to moss): greys and blues are slate, greens are moss, warm colours are clay.
+ */
+function outsideColorOf(color: Color): OutsideColor {
+  const { h, s } = color.getHSL({ h: 0, s: 0, l: 0 });
+  const hue = h * 360;
+  if (s < 0.15) return "slate";
+  if (hue >= 50 && hue < 190) return "moss";
+  if (hue >= 190 && hue < 330) return "slate";
+  return "clay";
+}
+
+/**
+ * Paint for things from outside the page: the model's own colour, snapped to its family in the outside
+ * palette, in the same flat tone bands as everything else. Snapping (instead of keeping the model's colours)
+ * keeps any new asset inside the palette: lime grass becomes moss, not a second acid. Textures are dropped;
+ * a textured material is judged by its base colour.
+ */
+export function outsideMaterial(original: Material | Material[]): Material {
+  const source =
+    !Array.isArray(original) && original instanceof MeshStandardMaterial ? original.color : new Color(1, 1, 1);
+  return surfaceMaterial(outsideColorOf(source));
+}
+
+/**
+ * Turns a loaded model copy into ink: every mesh gets its paint, a silhouette hull and crease lines.
+ * The copy shares the loaded materials, so each mesh is assigned a new material instead of editing the old
+ * one; `paint` sees the mesh (and so its original material) to choose it. Hull and lines are children of the
+ * mesh, so they inherit its transform and scale. Returns the line geometries: the caller owns them and must
+ * dispose them.
+ */
+export function inkify(model: Object3D, paint: (mesh: Mesh) => Material): EdgesGeometry[] {
+  const meshes: Mesh[] = [];
+  model.traverse((node) => {
+    if (node instanceof Mesh) meshes.push(node);
+  });
+
+  // Collected first: adding hull meshes while traversing would make the traversal visit them too.
+  return meshes.map((mesh) => {
+    mesh.material = paint(mesh);
+    mesh.add(new Mesh(mesh.geometry, silhouetteMaterial()));
+    const edges = new EdgesGeometry(mesh.geometry, CREASE_ANGLE);
+    mesh.add(new LineSegments(edges, lineMaterial()));
+    return edges;
+  });
 }

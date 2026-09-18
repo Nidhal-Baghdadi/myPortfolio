@@ -1,5 +1,9 @@
 /** Colour names defined as --color-<name> in tokens.css. */
-export type ColorToken = "paper" | "ink" | "graphite" | "rule" | "acid";
+export type ColorToken = "paper" | "ink" | "graphite" | "rule" | "acid" | OutsideColor;
+
+/** The palette for things from outside the page; see tokens.css. */
+export const OUTSIDE_COLORS = ["moss", "clay", "slate"] as const;
+export type OutsideColor = (typeof OUTSIDE_COLORS)[number];
 
 const cache = new Map<ColorToken, string>();
 

@@ -26,6 +26,15 @@ export default function CreditsPage() {
           <a href="https://kenney.nl">Kenney</a> [
           <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>]
         </li>
+        <li>
+          <a href="https://poly.pizza/m/uacRjkWA4q">Floating Island</a> by J-Toastie [
+          <a href="https://creativecommons.org/licenses/by/3.0/">CC-BY</a>] via{" "}
+          <a href="https://poly.pizza">Poly Pizza</a>
+        </li>
+        <li>
+          <a href="https://poly.pizza/m/34W5ymEePk">Rock</a> by Quaternius [public domain] via{" "}
+          <a href="https://poly.pizza">Poly Pizza</a>
+        </li>
       </ul>
     </main>
   );

@@ -61,7 +61,7 @@ export const STATION_PROPS = {
     const x = spread(i, projects.length, 1.5);
     return [
       { name: "plinth", position: [x, 0.5, -1.5], size: [0.8, 1, 0.8] },
-      { name: "monitor", position: [x, 1.25, -1.5], size: [0.7, 0.5, 0.3] },
+      { name: "monitor", position: [x, 1.25, -1.5], size: [0.7, 0.5, 0.3], turn: Math.PI },
     ];
   }),
   toolRack: [

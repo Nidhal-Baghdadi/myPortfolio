@@ -9,6 +9,7 @@ import {
   WALL_TILES,
 } from "../scene/structure";
 import { cssColor } from "../styles/tokens";
+import Island from "./Island";
 import PropModel from "./PropModel";
 import Tiles from "./Tiles";
 import Wall from "./Wall";
@@ -31,6 +32,9 @@ function BoxArena() {
 export default function Arena() {
   return (
     <>
+      <Suspense fallback={null}>
+        <Island />
+      </Suspense>
       <Suspense fallback={<BoxArena />}>
         <Tiles model="floor" tiles={FLOOR_TILES} line="rule" silhouette={false} />
         <Tiles model="floor-detail" tiles={FLOOR_DETAIL_TILES} line="rule" silhouette={false} />
