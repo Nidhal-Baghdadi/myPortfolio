@@ -1,25 +1,36 @@
 <!doctype html>
-<html lang="en" class="!scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#121310" />
 
-    <title>Nidhal Baghdadi | Software Engineer</title>
+    <title>Nidhal Baghdadi · Software Engineer</title>
     <meta
       name="description"
-      content="Portfolio of Nidhal Baghdadi, a software engineer building full-stack web applications, back-end services, and practical product features."
+      content="Nidhal Baghdadi, full-stack software engineer in Tunis. A walk through his work: projects, skills and experience, in a 3D arena or as a plain page."
     />
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
+    <!-- Social previews: what LinkedIn, Slack or X show when the link is shared. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nidhal Baghdadi" />
+    <meta property="og:title" content="Nidhal Baghdadi · Software Engineer" />
+    <meta
+      property="og:description"
+      content="Full-stack software engineer in Tunis. Projects, skills and experience, in a 3D arena or as a plain page."
     />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Nidhal Baghdadi, software engineer: an ink-drawn arena floating in space." />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
+    <noscript>This site needs JavaScript. You can still download the CV: /CV/CV.pdf</noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

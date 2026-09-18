@@ -1,20 +1,20 @@
-.corner { position: fixed; right: 1rem; bottom: 1rem; width: 10rem; padding: 0.5rem; background: var(--color-paper); border: 1px solid var(--color-rule); font-family: var(--font-mono); color: var(--color-ink); }
+.corner { composes: sheet from "../styles/ui.module.css"; position: fixed; right: 1rem; bottom: 1rem; width: 10rem; padding: 0.5rem; font-family: var(--font-mono); }
+/* Phones: the panel takes the bottom, so the map shrinks to its button, top right. */
+@media (max-width: 40rem) {
+  nav.corner { top: 1rem; bottom: auto; width: auto; padding: 0; background: none; backdrop-filter: none; border: 0; box-shadow: none; }
+  .corner > svg,
+  .corner .here { display: none; }
+}
 .here { margin: 0.4rem 0 0.35rem; font-size: 0.75rem; }
 .hereNumber { font-weight: 600; background: var(--color-acid); padding: 0 0.25rem; }
-.open,
-.close { display: flex; width: 100%; justify-content: space-between; align-items: center; padding: 0.35rem 0.5rem; font: 600 0.75rem var(--font-mono); color: var(--color-ink); background: transparent; border: 1px solid var(--color-ink); cursor: pointer; }
-.open:hover,
-.close:hover { background: var(--color-acid); }
-.open:focus-visible,
-.close:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
-kbd { font: inherit; font-weight: 400; padding: 0 0.3rem; border: 1px solid var(--color-rule); }
+.open { composes: secondary small from "../styles/ui.module.css"; width: 100%; justify-content: space-between; }
+.close { composes: secondary small from "../styles/ui.module.css"; }
 
-.dialog { width: min(64rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); padding: 0; color: var(--color-ink); background: var(--color-paper); border: 1px solid var(--color-ink); }
+.dialog { composes: sheet from "../styles/ui.module.css"; width: min(64rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); padding: 0; background: var(--color-paper); }
 .dialog::backdrop { background: color-mix(in srgb, var(--color-ink) 70%, transparent); }
 .sheet { padding: 1.25rem 1.5rem 1.5rem; }
-.header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-bottom: 0.75rem; border-bottom: 3px solid var(--color-ink); }
+.header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem 1rem; padding-bottom: 0.75rem; border-bottom: 3px solid var(--color-ink); }
 .title { margin: 0; font: 800 2.25rem/1 var(--font-display); text-transform: uppercase; }
-.close { width: auto; gap: 0.6rem; }
 
 .body { display: grid; grid-template-columns: minmax(0, 3fr) minmax(14rem, 2fr); gap: 1.5rem; margin-top: 1.25rem; }
 .drawing { max-height: calc(100vh - 12rem); aspect-ratio: 16.6 / 17.6; justify-self: center; width: 100%; max-width: calc((100vh - 12rem) * 16.6 / 17.6); }
@@ -43,3 +43,11 @@ kbd { font: inherit; font-weight: 400; padding: 0 0.3rem; border: 1px solid var(
 .keyProp { background: var(--color-rule); border: 1px solid var(--color-graphite); height: 0.7rem; }
 .keyStand { background: var(--color-rule); height: 0.7rem; }
 .keyWall { background: var(--color-ink); height: 0.35rem; }
+.headerActions { display: flex; gap: 0.5rem; }
+.credits { composes: secondary small from "../styles/ui.module.css"; }
+.kbd { composes: kbd from "../styles/ui.module.css"; }
+@media (max-width: 40rem) {
+  .sheet { padding: 1rem; }
+  .title { font-size: 1.8rem; }
+  .drawing { max-width: 100%; }
+}

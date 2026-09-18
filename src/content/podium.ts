@@ -2,12 +2,18 @@ import type { StationContent } from "./types"
 
 export const PODIUM = {
   heading: "About me",
-  lede: "I'm a software engineer based in Tunisia, currently working at Pwn&Patch on web platforms, back-end services, and data-driven product features.",
+  lede: "I'm a full-stack software engineer in Tunis, with experience across several industries and tech stacks. Currently at Pwn&Patch, building cyber threat intelligence tools.",
   kind: "paragraphs",
+  facts: [
+    { label: "Based in", value: "Tunis, Tunisia" },
+    { label: "Now", value: "Software engineer at Pwn&Patch" },
+    { label: "Studied", value: "ESIEA–EPI double diploma" },
+    { label: "Speaks", value: "French, English (TOEIC 975/990)" },
+  ],
   items: [
-    "After an early academic detour, I moved fully into software engineering at EPI Sousse and completed the ESIEA-EPI double diploma program in Paris.",
-    "I enjoy product-minded engineering: understanding the problem, shaping a practical interface, and building the services and data flows that make the experience reliable.",
-    "My core stack includes JavaScript, TypeScript, Vue, React, Node.js, Ruby on Rails, MongoDB, MySQL, Elasticsearch, Docker, and CI/CD. I've also worked with Flutter, Spring Boot, Azure, IBM Cloud, and Kubernetes across internships and academic projects.",
+    "I studied software engineering at EPI in Sousse and completed the ESIEA–EPI double diploma in Paris, with internships at Dassault Systèmes and IBM and team projects for Thales Group and COLAS.",
+    "I adapt quickly and like learning new tools: I've shipped Ruby on Rails services for threat intelligence data, Node.js back-ends for an augmented reality app, and real-time Vue interfaces for diagrams.",
+    "Outside work I've competed in programming contests (IEEEXtreme, Google Hash Code, TCPC), belonged to EPI's CO-PRO and Google Developer Student Club, and taught English part-time to middle and high school students.",
   ],
   actions: [],
 } as const satisfies StationContent

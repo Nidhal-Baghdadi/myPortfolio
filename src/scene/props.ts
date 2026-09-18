@@ -1,7 +1,7 @@
 import type { Vector3Tuple } from "three";
 import { CONTENT } from "@/content";
 import type { MyRecord } from "@/content/types";
-import type { StationId } from "./arena";
+import { STATIONS, toArena, type Focus, type StationId } from "./arena";
 
 /** Which file in /models/arena each prop loads. */
 export const PROP_MODELS = {
@@ -44,6 +44,9 @@ export const PROP_MODELS = {
 
 export type PropName = keyof typeof PROP_MODELS;
 
+/** Where a prop's model file is served from. */
+export const modelUrl = (name: PropName) => `/models/arena/${PROP_MODELS[name]}.glb`;
+
 /** One piece of furniture at a station, in the station's local space. */
 export type PropSpec = {
   name: PropName;
@@ -56,6 +59,10 @@ export type PropSpec = {
   /** Tip forward or back around the x axis, in radians, e.g. to stand a flat keyboard upright. */
   tilt?: number;
 };
+
+/** Space between two project plinths, and where the row stands behind the station's spot. */
+const PLINTH_GAP = 1.5;
+const PLINTH_Z = -1.5;
 
 /** Spreads `count` items evenly along x, centred on the marker. */
 const spread = (index: number, count: number, gap: number) => (index - (count - 1) / 2) * gap;
@@ -74,10 +81,10 @@ export const STATION_PROPS = {
   ],
   // a plinth per project, with a monitor on top
   plinths: CONTENT.plinths.items.flatMap((_project, i, projects): PropSpec[] => {
-    const x = spread(i, projects.length, 1.5);
+    const x = spread(i, projects.length, PLINTH_GAP);
     return [
-      { name: "plinth", position: [x, 0.5, -1.5], size: [0.8, 1, 0.8] },
-      { name: "monitor", position: [x, 1.25, -1.5], size: [0.7, 0.5, 0.3], turn: Math.PI },
+      { name: "plinth", position: [x, 0.5, PLINTH_Z], size: [0.8, 1, 0.8] },
+      { name: "monitor", position: [x, 1.25, PLINTH_Z], size: [0.7, 0.5, 0.3], turn: Math.PI },
     ];
   }),
   toolRack: [
@@ -89,8 +96,8 @@ export const STATION_PROPS = {
     { name: "binder", position: [2.1, 0.21, -1.3], size: [0.28, 0.42, 0.1] },
     { name: "binder", position: [2.4, 0.21, -1.3], size: [0.28, 0.42, 0.1] },
   ],
-  // a statue for each of the three most recent roles
-  statues: CONTENT.statues.items.slice(0, 3).flatMap((_role, i, roles): PropSpec[] => {
+  // a statue for each of the three most recent jobs
+  statues: CONTENT.statues.items.filter((role) => role.type === "Work").slice(0, 3).flatMap((_role, i, roles): PropSpec[] => {
     const x = spread(i, roles.length, 1.3);
     return [
       { name: "statue", position: [x, 0.8, -1.5], size: [0.6, 1.6, 0.6] },
@@ -129,3 +136,20 @@ function ringAround(props: readonly PropSpec[]): Ring {
 export const STATION_RINGS = Object.fromEntries(
   Object.entries(STATION_PROPS).map(([id, props]) => [id, ringAround(props)]),
 ) as MyRecord<StationId, Ring>;
+
+/**
+ * The camera framing for one project's page: close on its plinth and monitor, seen from the arena side like
+ * the Plinths station, and panned well right, because the case study's text column covers the left.
+ */
+export function projectFocus(slug: string): Focus | null {
+  const projects = CONTENT.plinths.items;
+  const index = projects.findIndex((project) => project.slug === slug);
+  const station = STATIONS.find((s) => s.id === "plinths");
+  if (index === -1 || !station) return null;
+  const [x, z] = toArena(station, [spread(index, projects.length, PLINTH_GAP), PLINTH_Z]);
+  return {
+    x,
+    z,
+    shot: { distance: 4.2, elevation: 12, azimuth: station.shot.azimuth, fov: 50, lookHeight: 1, clearPanel: 1.6 },
+  };
+}

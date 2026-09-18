@@ -10,12 +10,19 @@ export type BaseContent = { heading: string; lede: string; actions: readonly Act
 
 export type Section<Kind extends string, Item> = BaseContent & { kind: Kind; items: readonly Item[] }
 
+/** A labelled one-liner, e.g. "Based in: Tunisia". */
+export type Fact = { label: string; value: string }
+
+/** Skills of one kind, e.g. every back-end framework. */
+export type SkillGroup = { area: string; items: readonly string[] }
+
 export type StationContent =
-    | (BaseContent & { kind: "plain" })     // Gate, Postern: no list
-    | Section<"paragraphs", string>         // Podium
-    | Section<"skills", string>             // Tool rack
-    | Section<"projects", Project>          // Plinths
-    | Section<"roles", Role>                // Statues
+    | (BaseContent & { kind: "plain" })                                        // Gate: no list
+    | (BaseContent & { kind: "contact" })                                      // Postern: the contact form
+    | (Section<"paragraphs", string> & { facts: readonly Fact[] })             // Podium
+    | (Section<"skills", SkillGroup> & { core: readonly string[] })            // Tool rack: core is highlighted
+    | Section<"projects", Project>                                             // Plinths
+    | Section<"roles", Role>                                                  // Statues
 
 
 
@@ -46,6 +53,8 @@ export type Project = {
 }
 
 export type Role = {
+    /** What kind of entry this is: shown in the timeline; the Statues stand for the latest Work entries. */
+    type: "Work" | "Project" | "Education";
     title: string;
     place: string;
     dates: string;

@@ -89,6 +89,25 @@ export function silhouetteMaterial() {
   return silhouette;
 }
 
+const toonCopies = new WeakMap<Material, MeshToonMaterial>();
+
+/**
+ * A model's own colours (base colour and texture) in the same flat tone bands as the paper pieces, so a
+ * coloured object still belongs to the drawing. One copy per original material, created once and shared,
+ * never disposed: recreating them would recompile their shader and freeze the page for a moment.
+ */
+export function toonOf(original: Material): MeshToonMaterial {
+  let toon = toonCopies.get(original);
+  if (!toon) {
+    toon =
+      original instanceof MeshStandardMaterial
+        ? new MeshToonMaterial({ color: original.color, map: original.map, gradientMap: toneBands() })
+        : new MeshToonMaterial({ color: cssColor("paper"), gradientMap: toneBands() });
+    toonCopies.set(original, toon);
+  }
+  return toon;
+}
+
 /**
  * Which outside colour a model colour belongs to, by hue family rather than raw RGB distance (which would put
  * lime grass closer to clay than to moss): greys and blues are slate, greens are moss, warm colours are clay.

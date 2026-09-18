@@ -1,0 +1,72 @@
+/*
+ * The site's controls and surfaces, in one place. Components compose these (CSS Modules `composes`) instead
+ * of restyling buttons and panels locally, so every button and every panel looks and behaves the same.
+ */
+
+/* Buttons ------------------------------------------------------------------------------------------------
+ * One shape, three roles:
+ *   primary    acid: the one next step (Send message, Case study)
+ *   secondary  outlined paper: everything else (Read as a page, Map, LinkedIn)
+ *   inverse    ink with acid text: switching worlds (Show the arena)
+ * Hover always lands on acid or ink, and focus is the same ink-and-acid double ring everywhere, visible on
+ * paper and on the dark sky alike. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  min-height: 2.25rem;
+  padding: 0.45rem 0.9rem;
+  font: 600 0.78rem / 1.2 var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--color-paper);
+  border: 1px solid var(--color-ink);
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.button:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; box-shadow: 0 0 0 5px var(--color-acid); }
+.button:disabled { cursor: progress; opacity: 0.7; }
+/* Fingers need bigger targets than pointers. */
+@media (pointer: coarse) {
+  .button { min-height: 2.75rem; }
+}
+
+.primary { composes: button; background: var(--color-acid); border-color: var(--color-acid); }
+.primary:hover { color: var(--color-acid); background: var(--color-ink); border-color: var(--color-ink); }
+
+.secondary { composes: button; background: color-mix(in srgb, var(--color-paper) 90%, transparent); }
+.secondary:hover { background: var(--color-acid); }
+
+.inverse { composes: button; color: var(--color-acid); background: var(--color-ink); }
+.inverse:hover { color: var(--color-ink); background: var(--color-acid); }
+
+.small { min-height: 1.9rem; padding: 0.3rem 0.6rem; font-size: 0.72rem; }
+@media (pointer: coarse) {
+  .small { min-height: 2.5rem; }
+}
+
+.kbd { font: inherit; font-weight: 400; padding: 0 0.3rem; border: 1px solid currentColor; opacity: 0.6; }
+
+/* Surfaces -----------------------------------------------------------------------------------------------
+ * A sheet of paper over the world: 88% paper with a blur behind it, so the scene stays present as a soft
+ * texture while text keeps full contrast. An ink border and a hard offset shadow, like a printed card.
+ * Where blur isn't available, or on small screens (blurring a live 3D scene costs phones dearly), the
+ * paper goes nearly solid instead: clarity first. */
+.sheet {
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-paper) 88%, transparent);
+  backdrop-filter: blur(12px) saturate(0.8);
+  border: 1px solid var(--color-ink);
+  box-shadow: 6px 6px 0 var(--color-ink);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .sheet { background: var(--color-paper); }
+}
+@media (max-width: 40rem) {
+  .sheet { background: color-mix(in srgb, var(--color-paper) 97%, transparent); backdrop-filter: none; box-shadow: 4px 4px 0 var(--color-ink); }
+}

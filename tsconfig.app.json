@@ -28,11 +28,7 @@
 
     /* Path aliases - must stay in sync with vite.config.ts */
     "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@lib/*": ["./src/lib/*"],
-      "@context/*": ["./src/context/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]

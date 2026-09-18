@@ -1,7 +1,20 @@
-import { Stars, Trail, useGLTF } from "@react-three/drei";
+import { Sparkles, Stars, Trail, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { memo, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BackSide, Color, DoubleSide, type Group, MathUtils, Mesh, MeshBasicMaterial, Vector3 } from "three";
+import {
+  AdditiveBlending,
+  BackSide,
+  CanvasTexture,
+  Color,
+  DoubleSide,
+  type Group,
+  MathUtils,
+  Mesh,
+  MeshBasicMaterial,
+  SpriteMaterial,
+  SRGBColorSpace,
+  Vector3,
+} from "three";
 import { lineMaterial, outsideMaterial, silhouetteMaterial, surfaceMaterial } from "@/scene/ink";
 import { inkModelOf } from "@/scene/inkModel";
 import { GLOBE_CENTER, GLOBE_RADIUS, SPACE_RADIUS } from "@/scene/space";
@@ -12,7 +25,10 @@ import { cssColor } from "@/styles/tokens";
  * nearly clear. That reads as glass without the cost of real refraction, and fits the drawn style.
  */
 function Globe() {
-  const uniforms = useMemo(() => ({ color: { value: new Color(cssColor("paper")) } }), []);
+  const uniforms = useMemo(
+    () => ({ color: { value: new Color(cssColor("paper")) }, tint: { value: new Color(cssColor("slate")) } }),
+    [],
+  );
 
   return (
     <mesh position={GLOBE_CENTER}>
@@ -38,11 +54,14 @@ function Globe() {
         fragmentShader={
           /* glsl */ `
           uniform vec3 color;
+          uniform vec3 tint;
           varying vec3 vNormal;
           varying vec3 vView;
           void main() {
             float rim = 1.0 - abs(dot(normalize(vNormal), normalize(vView)));
-            gl_FragColor = vec4(color, 0.015 + pow(rim, 6.0) * 0.6);
+            // A wide, faint slate haze toward the edge, and a thin paper glow right at it: soap film, not glass.
+            vec3 glow = mix(tint, color, pow(rim, 4.0));
+            gl_FragColor = vec4(glow, 0.02 + pow(rim, 2.5) * 0.18 + pow(rim, 8.0) * 0.45);
             #include <colorspace_fragment>
           }`
         }
@@ -214,11 +233,140 @@ function Comets() {
 
 useGLTF.preload(ROCK_URL);
 
+/**
+ * The sky: a dome far beyond the stars, ink below the horizon fading to a deep slate overhead, so space has
+ * depth instead of flat black. Drawn first and never written to depth, it sits behind everything.
+ */
+function Sky() {
+  const uniforms = useMemo(
+    () => ({ low: { value: new Color(cssColor("ink")) }, high: { value: new Color(cssColor("slate")).multiplyScalar(0.35) } }),
+    [],
+  );
+  return (
+    <mesh renderOrder={-1}>
+      <sphereGeometry args={[500, 32, 16]} />
+      <shaderMaterial
+        uniforms={uniforms}
+        side={BackSide}
+        depthWrite={false}
+        vertexShader={
+          /* glsl */ `
+          varying float vHeight;
+          void main() {
+            vHeight = normalize(position).y;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }`
+        }
+        fragmentShader={
+          /* glsl */ `
+          uniform vec3 low;
+          uniform vec3 high;
+          varying float vHeight;
+          void main() {
+            gl_FragColor = vec4(mix(low, high, smoothstep(-0.2, 0.9, vHeight)), 1.0);
+            #include <colorspace_fragment>
+          }`
+        }
+      />
+    </mesh>
+  );
+}
+
+/** A soft round glow, drawn once on a small canvas and shared by every nebula cloud. */
+function glowTexture() {
+  const size = 128;
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = size;
+  const context = canvas.getContext("2d");
+  if (context) {
+    const gradient = context.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    gradient.addColorStop(0, "rgba(255,255,255,1)");
+    gradient.addColorStop(0.4, "rgba(255,255,255,0.35)");
+    gradient.addColorStop(1, "rgba(255,255,255,0)");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, size, size);
+  }
+  const texture = new CanvasTexture(canvas);
+  texture.colorSpace = SRGBColorSpace;
+  return texture;
+}
+
+/** Nebulae: where they sit (direction from the island), how big, and their colour from the outside palette. */
+const NEBULAE = [
+  { direction: [-1, 0.35, -0.6], size: 150, color: "slate" },
+  { direction: [0.9, 0.5, -0.8], size: 120, color: "moss" },
+  { direction: [0.7, -0.3, 0.9], size: 110, color: "clay" },
+  { direction: [-0.8, -0.45, 0.7], size: 130, color: "slate" },
+  { direction: [0.1, 0.9, 0.3], size: 100, color: "moss" },
+] as const;
+const NEBULA_DISTANCE = 260;
+
+/**
+ * Nebulae as clusters of soft glows, added together (additive blending) so overlaps brighten like light
+ * rather than stacking like paper. Each cluster is a few sprites at pseudo-random offsets; the whole set
+ * turns very slowly, so the sky drifts behind the island without anything visibly moving.
+ */
+type Cloud = { position: Vector3; scale: number; material: SpriteMaterial };
+let clouds: Cloud[] | undefined;
+
+/** Built once for the page's lifetime: the sky never changes, and its materials' shaders stay compiled. */
+function nebulaClouds(): Cloud[] {
+  if (clouds) return clouds;
+  const texture = glowTexture();
+  let seed = 7;
+  const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647; // repeatable: same sky every visit
+  clouds = NEBULAE.flatMap((nebula) => {
+    const centre = new Vector3(...nebula.direction).normalize().multiplyScalar(NEBULA_DISTANCE);
+    return Array.from({ length: 5 }, () => {
+      const offset = new Vector3(random() - 0.5, random() - 0.5, random() - 0.5).multiplyScalar(nebula.size * 0.8);
+      const material = new SpriteMaterial({
+        map: texture,
+        color: cssColor(nebula.color),
+        transparent: true,
+        opacity: 0.1 + random() * 0.12,
+        blending: AdditiveBlending,
+        depthWrite: false,
+      });
+      return { position: centre.clone().add(offset), scale: nebula.size * (0.5 + random() * 0.7), material };
+    });
+  });
+  return clouds;
+}
+
+function Nebulae({ animate }: { animate: boolean }) {
+  const group = useRef<Group>(null);
+  const clouds = nebulaClouds();
+
+  useFrame((_, delta) => {
+    if (animate && group.current) group.current.rotation.y += delta * 0.004;
+  });
+
+  return (
+    <group ref={group}>
+      {clouds.map((cloud, i) => (
+        <sprite key={i} position={cloud.position} scale={cloud.scale} material={cloud.material} />
+      ))}
+    </group>
+  );
+}
+
 /** Where the arena floats: a starfield, the glass globe around the island, and comets bouncing off it. */
 function Space({ animate }: { animate: boolean }) {
   return (
     <>
+      <Sky />
+      <Nebulae animate={animate} />
       <Stars radius={220} depth={120} count={7000} factor={5} saturation={0} fade speed={animate ? 0.6 : 0} />
+      {/* Dust drifting around the island, catching the light: the air inside the globe. */}
+      <Sparkles
+        position={GLOBE_CENTER}
+        count={140}
+        scale={[GLOBE_RADIUS * 1.8, GLOBE_RADIUS, GLOBE_RADIUS * 1.8]}
+        size={2.5}
+        speed={animate ? 0.25 : 0}
+        opacity={0.55}
+        color={cssColor("paper")}
+      />
       <Globe />
       {animate && <Comets />}
     </>

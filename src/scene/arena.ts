@@ -20,6 +20,9 @@ export type Shot = {
     clearPanel: number;
 };
 
+/** A camera framing around any point of the arena, e.g. one project's plinth. */
+export type Focus = { x: number; z: number; shot: Shot };
+
 export type Station = {
     id: string;
     name: string;

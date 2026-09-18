@@ -1,0 +1,115 @@
+/*
+ * Station content, shared by the panel over the arena and by page mode. Panel sizes are the default;
+ * page mode's container sets data-layout="page" and the rules at the end widen the same markup.
+ */
+
+/* Header ------------------------------------------------------------------------------------------ */
+.header { margin-bottom: 1.25rem; }
+.eyebrow { display: flex; align-items: baseline; gap: 0.5rem; margin: 0 0 0.6rem; font: 600 0.75rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-graphite); }
+.number { padding: 0.1rem 0.35rem; color: var(--color-ink); background: var(--color-acid); }
+.of { color: var(--color-graphite); font-weight: 400; }
+.heading { margin: 0; font: 800 clamp(2.4rem, 5vw, 3.2rem) / 0.92 var(--font-display); text-transform: uppercase; letter-spacing: -0.01em; }
+.lede { margin: 0.9rem 0 0; font-size: 1.15rem; line-height: 1.45; }
+
+/* Text ---------------------------------------------------------------------------------------------- */
+.paragraph { margin: 0 0 0.75rem; line-height: 1.55; }
+.prose { margin-top: 1.25rem; }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.itemTitle { margin: 0; font: 700 1.35rem / 1.05 var(--font-display); text-transform: uppercase; }
+
+/* Facts: a ruled strip of label/value pairs ------------------------------------------------------- */
+/* Two columns in the panel (four facts make a tidy 2×2), one row in page mode (see the end of the file). */
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-rule); }
+.fact { padding: 0.6rem 0.75rem 0.7rem 0; }
+.fact:nth-child(even) { padding-left: 0.75rem; border-left: 1px solid var(--color-rule); }
+.fact:nth-child(n + 3) { border-top: 1px solid var(--color-rule); }
+.fact dt { font: 600 0.68rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-graphite); }
+.fact dd { margin: 0.2rem 0 0; font-size: 1rem; line-height: 1.3; }
+
+/* Skills: groups of tags, the everyday stack in acid ---------------------------------------------- */
+.skillGroups { display: grid; gap: 0.9rem; }
+.skillGroup { display: grid; grid-template-columns: 7rem 1fr; gap: 0.75rem; align-items: baseline; padding-top: 0.7rem; border-top: 1px solid var(--color-rule); }
+.area { margin: 0; font: 600 0.7rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-graphite); }
+.tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.tags li { padding: 0.2rem 0.5rem; font: 0.75rem var(--font-mono); border: 1px solid var(--color-rule); }
+.tags li.coreTag { background: var(--color-acid); border-color: var(--color-acid); font-weight: 600; }
+
+/* Experience: a timeline with a dates column ------------------------------------------------------ */
+.timeline { list-style: none; margin: 0; padding: 0; }
+.role { position: relative; display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; padding: 0.9rem 0 0.4rem 1rem; border-left: 2px solid var(--color-rule); }
+/* The dot on the line; acid for the current role. */
+.role::before { content: ""; position: absolute; left: -0.45rem; top: 1.15rem; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--color-paper); border: 2px solid var(--color-ink); }
+.role[data-current]::before { background: var(--color-acid); }
+.dates { margin: 0.1rem 0 0; font: 0.72rem / 1.4 var(--font-mono); color: var(--color-graphite); }
+.now { display: inline-block; margin-right: 0.4rem; padding: 0 0.3rem; font-weight: 600; color: var(--color-ink); background: var(--color-acid); }
+.roleType { display: block; margin-top: 0.3rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-ink); }
+.place { margin: 0.25rem 0 0.4rem; font: 0.75rem var(--font-mono); color: var(--color-graphite); }
+
+/* Projects: cards ------------------------------------------------------------------------------------ */
+.projects { display: grid; gap: 1.25rem; }
+.card { border: 1px solid var(--color-ink); background: var(--color-paper); }
+.cardImageLink { display: block; overflow: hidden; border-bottom: 1px solid var(--color-ink); }
+.cardImage { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 0.5s ease; }
+.card:hover .cardImage { transform: scale(1.03); }
+.cardBody { padding: 0.9rem 1rem 1rem; }
+.cardMeta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0 0 0.5rem; font: 0.7rem var(--font-mono); color: var(--color-graphite); }
+.cardIndex { font-weight: 600; color: var(--color-ink); }
+.status,
+.statusLive { padding: 0.05rem 0.4rem; font-weight: 600; color: var(--color-ink); border: 1px solid var(--color-ink); }
+.statusLive { background: var(--color-acid); border-color: var(--color-acid); }
+.statusLive::before { content: "● "; }
+.cardTitle { margin: 0; font: 800 1.6rem / 1 var(--font-display); text-transform: uppercase; }
+.cardTitle a { color: inherit; text-decoration: none; }
+.cardTitle a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+.cardTitle a:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+.cardRole { margin: 0.25rem 0 0.6rem; font: 0.75rem var(--font-mono); color: var(--color-graphite); }
+.card .tags { margin-bottom: 0.9rem; }
+.cardLinks { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* Actions -------------------------------------------------------------------------------------------- */
+.actions { list-style: none; margin: 1.5rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.action { composes: primary from "../styles/ui.module.css"; }
+.quietAction { composes: secondary from "../styles/ui.module.css"; }
+.emailLink:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+
+/* Email: the address large enough to read and copy, with its own copy button. */
+.email { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.emailLink { font: 800 clamp(1.3rem, 3vw, 1.8rem) / 1.1 var(--font-display); color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-acid); text-decoration-thickness: 0.3em; text-underline-offset: -0.1em; text-decoration-skip-ink: none; word-break: break-all; }
+.copy { composes: secondary small from "../styles/ui.module.css"; }
+
+/* Contact form -------------------------------------------------------------------------------------- */
+.form { display: grid; gap: 0.9rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 2px solid var(--color-ink); }
+.field { display: grid; gap: 0.3rem; }
+.label { font: 600 0.7rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-graphite); }
+.input { box-sizing: border-box; width: 100%; padding: 0.55rem 0.65rem; font: 1rem / 1.4 var(--font-body); color: var(--color-ink); background: var(--color-paper); border: 1px solid var(--color-ink); border-radius: 0; }
+textarea.input { resize: vertical; min-height: 7rem; }
+.input:focus-visible { outline: 3px solid var(--color-acid); outline-offset: 0; border-color: var(--color-ink); }
+/* An invalid field gets a heavier border and its message right under it, marked with an ink chip. */
+.input[aria-invalid] { border-width: 2px; }
+.fieldError,
+.formError { margin: 0; font: 0.78rem / 1.4 var(--font-mono); }
+.fieldError::before,
+.formError::before { content: "!"; display: inline-block; width: 1.1em; margin-right: 0.4rem; text-align: center; font-weight: 600; color: var(--color-acid); background: var(--color-ink); }
+.honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.formFooter { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.sent { margin: 1.25rem 0 0; padding: 0.9rem 1rem; font-size: 1.05rem; line-height: 1.45; background: var(--color-acid); border: 1px solid var(--color-ink); }
+
+/* Page mode: the same markup, given room --------------------------------------------------------------- */
+[data-layout="page"] .heading { font-size: clamp(3rem, 8vw, 6rem); }
+[data-layout="page"] .lede { max-width: 40rem; font-size: clamp(1.15rem, 2vw, 1.4rem); }
+[data-layout="page"] .prose { max-width: 42rem; font-size: 1.1rem; }
+[data-layout="page"] .facts { max-width: 60rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+[data-layout="page"] .fact:nth-child(n) { padding-left: 0.75rem; border-top: 0; border-left: 1px solid var(--color-rule); }
+[data-layout="page"] .fact:first-child { padding-left: 0; border-left: 0; }
+[data-layout="page"] .skillGroup { grid-template-columns: 10rem 1fr; }
+[data-layout="page"] .tags li { font-size: 0.85rem; padding: 0.3rem 0.65rem; }
+[data-layout="page"] .projects { grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr)); gap: 1.5rem; }
+[data-layout="page"] .role { grid-template-columns: 11rem 1fr; padding-bottom: 1rem; }
+[data-layout="page"] .role .paragraph { max-width: 40rem; }
+[data-layout="page"] .form { max-width: 40rem; }
+@media (max-width: 36rem) {
+  .skillGroup,
+  [data-layout="page"] .skillGroup,
+  .role,
+  [data-layout="page"] .role { grid-template-columns: 1fr; gap: 0.35rem; }
+}

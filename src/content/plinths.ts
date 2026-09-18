@@ -12,7 +12,7 @@ export const PLINTHS = {
       description:
         "A document workspace where every finding cites its source passage and nothing is sent, assigned or filed until a named person accepts it.",
       tags: ["React", "TypeScript", "NestJS", "PostgreSQL", "pgvector", "Redis"],
-      image: "/due-to-do.jpg",
+      image: "/projects/due-to-do/cover.webp",
       facts: { role: "Solo project", period: "Mar – Sep 2026", status: "Live" },
       problem:
         "Most document tooling stops at storage plus a chat box. The hard part is everything around the model: which sources are approved, what the company always checks for, who may see what, and who signs off. Due To Do reads each document against a checklist the company writes itself, attaches the supporting passage to every finding, and holds every action until a person with the authority accepts it.",
@@ -58,17 +58,17 @@ export const PLINTHS = {
       ],
       gallery: [
         {
-          src: "/projects/due-to-do/overview.jpg",
+          src: "/projects/due-to-do/overview.webp",
           alt: "Due To Do operational overview with intake, processing reliability, decision backlog and source health figures, above a throughput chart and a processing outcomes chart",
           caption: "The operational overview: what arrived, how reliably it was processed, and which decisions are waiting.",
         },
         {
-          src: "/projects/due-to-do/evidence.jpg",
+          src: "/projects/due-to-do/evidence.webp",
           alt: "A résumé with highlighted passages next to a list of source-backed insights, each with a confidence score and a link to its page",
           caption: "Every insight on the right points back to the highlighted passage it came from.",
         },
         {
-          src: "/projects/due-to-do/search.jpg",
+          src: "/projects/due-to-do/search.webp",
           alt: "Knowledge search results for the query security automation Python, ranked by relevance with the matching terms highlighted",
           caption: "Knowledge search ranks passages by meaning with pgvector, across only the documents you're allowed to see.",
         },
@@ -81,7 +81,7 @@ export const PLINTHS = {
       tagline: "A real-time LaTeX editor that paginates to A4 and exports PDF",
       description: "Type Markdown and LaTeX maths, see it typeset as A4 pages as you type, and download the result as a PDF.",
       tags: ["React", "KaTeX", "Monaco", "Tailwind"],
-      image: "/swiftex.png",
+      image: "/projects/swiftex/cover.webp",
       facts: { role: "Solo project", period: "Oct 2024 – Jun 2026", status: "Live" },
       problem:
         "Writing maths for the web usually means compiling LaTeX somewhere else and pasting in the result. SwifTex puts the editor, the typeset pages and the PDF export in a single browser tab, with nothing to install.",
@@ -118,7 +118,7 @@ export const PLINTHS = {
       ],
       gallery: [
         {
-          src: "/projects/swiftex/editor.jpg",
+          src: "/projects/swiftex/editor.webp",
           alt: "SwifTex with a LaTeX source document about abstract algebra in the editor on the left and the same document typeset as a page on the right",
           caption: "Source on the left, typeset A4 page on the right, with the PDF download button in the corner.",
         },
@@ -135,7 +135,7 @@ export const PLINTHS = {
       description:
         "A 3D space where young students explore subjects, see which lessons lead to which, and open a lesson to read it.",
       tags: ["React", "Three.js", "Next.js", "Prisma"],
-      image: "/whythough.png",
+      image: "/projects/oui-mais-pourquoi/cover.webp",
       facts: { role: "Solo project", period: "May 2024 · built in four days", status: "Prototype" },
       problem:
         "Course prerequisites usually live in flat lists that students skip. This prototype turns them into something to explore: subjects become constellations, lessons become cards you can move around, and learning what comes first feels more like play.",
@@ -171,22 +171,22 @@ export const PLINTHS = {
       ],
       gallery: [
         {
-          src: "/projects/oui-mais-pourquoi/landing.jpg",
+          src: "/projects/oui-mais-pourquoi/landing.webp",
           alt: "A starry 3D scene with a small planet, a rocket, a flying saucer, a floppy disk and orange 3D text reading learn something, for once",
           caption: "The landing scene: everything on screen is a 3D object.",
         },
         {
-          src: "/projects/oui-mais-pourquoi/journeys.jpg",
+          src: "/projects/oui-mais-pourquoi/journeys.webp",
           alt: "A starfield of yellow lesson markers grouped into clusters, with the subject name Philosophy floating above one of them",
           caption: "Journeys: each subject is a cluster of lessons, named when you hover it.",
         },
         {
-          src: "/projects/oui-mais-pourquoi/lesson-board.jpg",
+          src: "/projects/oui-mais-pourquoi/lesson-board.webp",
           alt: "A purple board covered with illustrated lesson cards arranged in a grid",
           caption: "A subject's lessons as cards on a 3D board, each one draggable.",
         },
         {
-          src: "/projects/oui-mais-pourquoi/lesson-editor.jpg",
+          src: "/projects/oui-mais-pourquoi/lesson-editor.webp",
           alt: "A rich-text editor showing Lesson 15 with a formatting toolbar and an embedded photograph",
           caption: "Opening a lesson: a rich-text editor built with TipTap.",
         },

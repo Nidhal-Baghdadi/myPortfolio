@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
+import { Link } from "react-router";
 import { STATIONS, type StationId } from "@/scene/arena";
 import styles from "./ArenaPlan.module.css";
 import PlanDrawing from "./PlanDrawing";
@@ -19,6 +20,7 @@ function isTyping(target: EventTarget | null) {
 export default function ArenaPlan({ activeId }: { activeId: StationId }) {
   const [open, setOpen] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
   const titleId = useId();
   const active = STATIONS.find((station) => station.id === activeId) ?? STATIONS[0];
   const activeNumber = String(STATIONS.indexOf(active) + 1).padStart(2, "0");
@@ -27,7 +29,11 @@ export default function ArenaPlan({ activeId }: { activeId: StationId }) {
   useEffect(() => {
     const element = dialog.current;
     if (!element) return;
-    if (open && !element.open) element.showModal();
+    if (open && !element.open) {
+      element.showModal();
+      // showModal focuses the first focusable element (Credits); Close is the one you want under your thumb.
+      closeButton.current?.focus();
+    }
     if (!open && element.open) element.close();
   }, [open]);
 
@@ -51,7 +57,7 @@ export default function ArenaPlan({ activeId }: { activeId: StationId }) {
           <span className={styles.hereNumber}>{activeNumber}</span> {active.topic}
         </p>
         <button type="button" className={styles.open} onClick={() => setOpen(true)} aria-keyshortcuts="M">
-          Map <kbd>M</kbd>
+          Map <kbd className={styles.kbd}>M</kbd>
         </button>
       </nav>
 
@@ -70,9 +76,14 @@ export default function ArenaPlan({ activeId }: { activeId: StationId }) {
             <h2 id={titleId} className={styles.title}>
               The arena
             </h2>
-            <button type="button" className={styles.close} onClick={close}>
-              Close <kbd>Esc</kbd>
-            </button>
+            <div className={styles.headerActions}>
+              <Link className={styles.credits} to="/credits">
+                Credits
+              </Link>
+              <button ref={closeButton} type="button" className={styles.close} onClick={close}>
+                Close <kbd className={styles.kbd}>Esc</kbd>
+              </button>
+            </div>
           </header>
 
           <div className={styles.body}>

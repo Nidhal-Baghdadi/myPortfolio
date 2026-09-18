@@ -3,10 +3,8 @@ import { useGLTF } from "@react-three/drei";
 import { Euler, Matrix4, Vector3, type Vector3Tuple } from "three";
 import { lineMaterial, silhouetteMaterial, surfaceMaterial } from "@/scene/ink";
 import { inkModelOf } from "@/scene/inkModel";
-import { PROP_MODELS, type PropSpec } from "@/scene/props";
+import { modelUrl, PROP_MODELS, type PropSpec } from "@/scene/props";
 
-const modelUrl = (name: PropSpec["name"]) =>
-  `/models/arena/${PROP_MODELS[name]}.glb`;
 
 /**
  * Draws a prop fitted into its box: scaled uniformly to the largest size that fits, centred on x and z,
@@ -44,7 +42,8 @@ export default function PropModel({
     <group position={position}>
       <group position={fit.offset} scale={fit.scale}>
         <group rotation={[tilt, turn, 0]}>
-          <mesh geometry={ink.surface} material={surfaceMaterial(accent ? "acid" : "paper")} />
+          {/* The hybrid look: drawn on paper everywhere, the active station comes alive in its own colours. */}
+          <mesh geometry={ink.surface} material={accent ? ink.colours : surfaceMaterial("paper")} />
           <mesh geometry={ink.surface} material={silhouetteMaterial()} />
           <lineSegments geometry={ink.edges} material={lineMaterial()} />
         </group>
